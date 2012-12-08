@@ -8,6 +8,22 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-public class Ground {
+public class Ground /*extends Sprite*/ {
     
+    private String textureName;
+    private int xLoc, yLoc;
+    private float scale;
+    
+    public Ground(String textureName, int xLoc, int yLoc, float scale)
+    {
+        textureName = textureName;
+        xLoc = xLoc;
+        yLoc = yLoc;
+        scale = scale;
+    }
+    public toString()
+    {
+        System.out.println("Texture: " + textureName + ", xLoc: " + xLoc 
+                            + ", yLoc: " + yLoc + "Scale: " + scale);
+    }
 }

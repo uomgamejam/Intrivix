@@ -13,6 +13,7 @@ public class GameStarter {
     GameStarter(){
         //Here is where we start the regular menu.
         //this class is simply here to start all the things
+        //#STARTALLTHETHINGS
         GameMenu gm = new GameMenu();
     }
     
