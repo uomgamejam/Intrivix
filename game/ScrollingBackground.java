@@ -8,10 +8,9 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-class ScrollingBackground {
-
-    ScrollingBackground(int parseInt, int parseInt0, double parseDouble, String string) {
-        throw new UnsupportedOperationException("Not yet implemented");
+public class ScrollingBackground creates Sprite {    
+    public ScrollingBackground(int x, int y, double givenScale, String imgName)
+    {
+        super(x, y, givenScale, imgName);
     }
-    
 }

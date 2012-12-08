@@ -8,10 +8,9 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-class Background {
-
-    Background(int parseInt, int parseInt0, double parseDouble, String string) {
-        throw new UnsupportedOperationException("Not yet implemented");
+public class Background extends Sprite {    
+    public Background(int x, int y, double givenScale, String imgName)
+    {
+        super(x, y, givenScale, imgName);
     }
-    
 }

@@ -8,13 +8,9 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-class PlayerStart {
-
-    public PlayerStart() {
+public class PlayerStart extends Sprite {    
+    public PlayerStart(int x, int y, double givenScale, String imgName)
+    {
+        super(x, y, givenScale, imgName);
     }
-
-    PlayerStart(int parseInt, int parseInt0, double parseDouble, String string) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
 }
