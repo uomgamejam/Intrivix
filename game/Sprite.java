@@ -4,15 +4,12 @@
  */
 package Intrivix.game;
 
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.IOException;
-import org.lwjgl.util.Point;
-import org.lwjgl.util.Rectangle;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,20 +40,7 @@ public class Sprite {
 
 
         imageName = imgName;
-        try{
-            System.out.println(imgName + " ");
-            image = new Image(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream(imageName)));
-        }catch (IOException ioe){
-            System.out.println("IO Exception: " + ioe);
-        }
-        if (image == null) {    // no image of that name was found
-          System.err.println("No sprite image for " + imageName);
-          System.exit(1);
-        }
-        else {
-          width = image.getWidth();
-          height = image.getHeight();
-        }
+        
     } // end of Sprite()
     
     public void setSpeed(double x, double y){
@@ -75,10 +59,6 @@ public class Sprite {
     public void setPosition(int x, int y){
         locx = x;
         locy = y;
-    }
-    
-    public void render(Graphics g){
-        g.drawImage(image, scale, scale);
     }
     
 }

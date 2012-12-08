@@ -4,42 +4,26 @@
  */
 package Intrivix.game;
 
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
+import javax.swing.JFrame;
 
 /**
  *
  * @author Devin
  */
-public class GameMain extends BasicGame{    
+public class GameMain extends JFrame{  
     Player player;
     
-    TrueTypeFont ttFont;
+    GamePanel panel;
     
     public GameMain(){
         super("Game Jam");
-    }
-    
-    @Override
-    public void init(GameContainer container) throws SlickException {
-        java.awt.Font f = new java.awt.Font("Consolas", java.awt.Font.PLAIN, 15);
-        ttFont = new TrueTypeFont(f, true);
-        
-        player = new Player(100, 100, .5f, "Intrivix/game/assets/cirlce.png");
-    }
-
-    @Override
-    public void update(GameContainer container, int delta) throws SlickException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void render(GameContainer container, Graphics g) throws SlickException {
-        player.render(g);
+        panel = new GamePanel(this);
+        setBounds(50,0,640,480);
+        setResizable(false);
+        ExitWindow exit = new ExitWindow();
+        addWindowListener(exit);
+        setContentPane(panel);
+        setVisible(true);
     }
     
 }
