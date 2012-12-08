@@ -30,9 +30,9 @@ public class Sprite {
     
     private GraphicsConfiguration graphics;
     
-    private double scale;
-    private float rotation = 0, oldRot = 0;
-    private float speed;
+    protected double scale;
+    protected double rotation = 0, oldRot = 0;
+    protected double speed;
     
     public int width, height;
     
@@ -85,7 +85,7 @@ public class Sprite {
         locy = y;
     }
     
-    public void updateSprite(float fps){
+    public void updateSprite(double fps){
         if (fps !=0) {
             locx += dx/fps*speed;
             locy += dy/fps*speed;
@@ -99,7 +99,8 @@ public class Sprite {
         }
         
         int transparency = imageConst.getColorModel().getTransparency();
-        BufferedImage dest =  graphics.createCompatibleImage(imageConst.getWidth(), imageConst.getHeight(), transparency );
+        BufferedImage dest =  graphics.createCompatibleImage((int)(imageConst.getWidth()*scale), 
+                                                (int)(imageConst.getHeight()*scale), transparency );
         Graphics2D g2d = dest.createGraphics();
 
         AffineTransform origAT = g2d.getTransform(); // save original transform
@@ -111,10 +112,17 @@ public class Sprite {
 
         g2d.drawImage(imageConst, 0, 0, null);   // copy in the image
 
-        g2d.setTransform(origAT);    // restore original transform
+        //g2d.setTransform(origAT);    // don't restore the original transform because we want to keep this...
         g2d.dispose();
+        
 
-        image = dest;
+        imageConst = dest;
+        
+        //make another image so that we have two copies of the image again...
+        /*dest = graphics.createCompatibleImage(imageConst.getWidth(), imageConst.getHeight(), transparency );
+        g2d = dest.createGraphics();
+        g2d.drawImage(imageConst, 0, 0, null);
+        image = dest;*/
     }
     
     public void rotate(){
