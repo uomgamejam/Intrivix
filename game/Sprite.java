@@ -7,6 +7,8 @@ package Intrivix.game;
 import java.io.IOException;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.Rectangle;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -20,7 +22,7 @@ public class Sprite {
     
     // image-related
     private String imageName;
-    private Texture image;
+    private Image image;
     
     private float scale;
     
@@ -43,7 +45,7 @@ public class Sprite {
         imageName = imgName;
         try{
             System.out.println(imgName + " ");
-            image = TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream(imageName));
+            image = new Image(TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream(imageName)));
         }catch (IOException ioe){
             System.out.println("IO Exception: " + ioe);
         }
@@ -52,8 +54,8 @@ public class Sprite {
           System.exit(1);
         }
         else {
-          width = image.getImageWidth();
-          height = image.getImageHeight();
+          width = image.getWidth();
+          height = image.getHeight();
         }
     } // end of Sprite()
     
@@ -73,6 +75,10 @@ public class Sprite {
     public void setPosition(int x, int y){
         locx = x;
         locy = y;
+    }
+    
+    public void render(Graphics g){
+        g.drawImage(image, scale, scale);
     }
     
 }

@@ -39,7 +39,7 @@ public class GameMain extends BasicGame{
 
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        player.render(g);
     }
     
 }
