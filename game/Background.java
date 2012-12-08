@@ -8,12 +8,9 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-class PlayerStart {
+class Background {
 
-    public PlayerStart() {
-    }
-
-    PlayerStart(int parseInt, int parseInt0, double parseDouble, String string) {
+    Background(int parseInt, int parseInt0, double parseDouble, String string) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
     

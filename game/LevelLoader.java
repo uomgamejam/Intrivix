@@ -40,21 +40,21 @@ public class LevelLoader {
             {
                 case "ground":
                     System.out.println("I shall create a ground object");
-                    Ground groundObject = new Ground(row[0], row[1], row[2], row[3]);
+                    Ground groundObject = new Ground(Integer.parseInt(row[1]), Integer.parseInt(row[2]), Double.parseDouble(row[3]), row[0]);
                     groundObjects.add(groundObject);
                     break;
                 case "background":
                     System.out.println("I shall create a background object");
-                    Background backgroundObject = new Background(row[0], row[1], row[2], row[3]);
+                    Background backgroundObject = new Background(Integer.parseInt(row[1]), Integer.parseInt(row[2]), Double.parseDouble(row[3]), row[0]);
                     backgroundObjects.add(backgroundObject);
                     break;
                 case "scrolling-background":
                     System.out.println("I shall create a scrolling background object");
-                    scrollingBackground = new ScrollingBackground(row[0, row[2], row[3], row[4]]);
+                    scrollingBackground = new ScrollingBackground(Integer.parseInt(row[1]), Integer.parseInt(row[2]), Double.parseDouble(row[3]), row[0]);
                     break;
                 case "player-start":
                     System.out.println("I shall create a player start object");
-                    playerStart = new PlayerStart(row[0], row[1], row[2], row[3]);
+                    playerStart = new PlayerStart(Integer.parseInt(row[1]), Integer.parseInt(row[2]), Double.parseDouble(row[3]), row[0]);
                     break;
                 default:
                     System.err.println("Level file: Undefined object");

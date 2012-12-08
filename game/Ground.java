@@ -12,14 +12,11 @@ public class Ground extends Sprite {
     
     private String textureName;
     private int xLoc, yLoc;
-    private float scale;
+    private double scale;
     
-    public Ground(String textureName, int xLoc, int yLoc, float scale)
+    public Ground(int x, int y, double givenScale, String imgName)
     {
-        textureName = textureName;
-        xLoc = xLoc;
-        yLoc = yLoc;
-        scale = scale;
+        super(x, y, givenScale, imgName);
     }
     @Override
     public String toString()
