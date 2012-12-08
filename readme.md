@@ -1,0 +1,1 @@
+A simple side-scrolling platformer, using only one button.
