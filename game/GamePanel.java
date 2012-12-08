@@ -42,8 +42,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private int width, height;
     private double screenScale;
     
-    private long keyDownTime = 0, lastKeyUpTime = 0;
-    private long timeBetweenKeys = 0;
+    private long keyDownTime = 0;
+    
     
     Player player;
     
@@ -180,21 +180,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             if(keyPressTime/1000.0 > 1.0){
                 //do something maybe...
             }else{
-                timeBetweenKeys = lastKeyUpTime - System.currentTimeMillis();
-                if(timeBetweenKeys/1000 < .125){
-                    shrinkBall();
-                }else
-                    jumpBall();
+                jumpBall();
             }
-            lastKeyUpTime = System.currentTimeMillis();
         }
     }
     
     private void jumpBall(){
-        
-    }
-    
-    private void shrinkBall(){
+        System.out.println("Player is jumping...");
+        player.jump();
         
     }
     

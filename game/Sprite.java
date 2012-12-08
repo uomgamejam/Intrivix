@@ -32,7 +32,7 @@ public class Sprite {
     
     protected double scale;
     protected double rotation = 0, oldRot = 0;
-    protected double speed;
+    protected double xspeed, yspeed;
     
     public int width, height;
     
@@ -87,8 +87,8 @@ public class Sprite {
     
     public void updateSprite(double fps){
         if (fps !=0) {
-            locx += dx/fps*speed;
-            locy += dy/fps*speed;
+            locx += dx/fps*xspeed;
+            locy += dy/fps*yspeed;
         }
     }
     
