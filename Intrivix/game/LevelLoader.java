@@ -10,6 +10,10 @@ package Intrivix.game;
  */
 import java.util.Scanner;
 import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LevelLoader {
     //String to contain the location of the level files
@@ -19,6 +23,20 @@ public class LevelLoader {
     {
         String levelPath = LEVEL_DIR + levelname;
         
+        Scanner input = null;
+        try {
+            input = new Scanner(new File(levelPath));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LevelLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        while(input.hasNextLine())
+        {
+            String line = input.nextLine();
+        }
+    }
+    public static void main(String [] args)
+    {
+        LevelLoader("level1.txt");
     }
 }
 
