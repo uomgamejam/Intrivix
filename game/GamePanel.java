@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private Image xImage = null;
     
     private int width, height;
+    private double screenScale;
     
     Player player;
     
@@ -50,9 +51,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         width = gameFrame.getBounds().width;
         height = gameFrame.getBounds().height;
         
+        screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
+        
         addKeyListener(this);
         
-        player = new Player(100, 100, .5f, "circle.png");
+        player = new Player((int) (100*screenScale), (int) (100*screenScale), .4*screenScale, "circle.png");
     }
     
     private void startGame(){
