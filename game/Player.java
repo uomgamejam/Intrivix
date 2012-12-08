@@ -18,4 +18,15 @@ public class Player extends Sprite{
         super(x, y, scale, imgName);
     }
     
+    public void updatePlayer(float fps){
+        checkPos();
+        super.updateSprite(fps);
+    }
+
+    private void checkPos() {
+        //TODO here we make sure the player is still on
+        //the ground of some sort... we should add some physics
+        //for all of the jumps and such...
+    }
+    
 }

@@ -4,9 +4,13 @@
  */
 package Intrivix.game;
 
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +23,13 @@ public class Sprite {
     
     // image-related
     private String imageName;
-    private Image image;
+    private BufferedImage image, imageConst;
+    
+    private GraphicsConfiguration graphics;
     
     private float scale;
+    private float rotation = 0, oldRot = 0;
+    private float speed;
     
     public int width, height;
     
@@ -59,6 +67,39 @@ public class Sprite {
     public void setPosition(int x, int y){
         locx = x;
         locy = y;
+    }
+    
+    public void updateSprite(float fps){
+        if (fps !=0) {
+            locx += dx/fps*speed;
+            locy += dy/fps*speed;
+        }
+    }
+    
+    public void rotate(){
+        if (image == null) {
+            System.out.println("input image is null");
+            return;
+        }
+        
+        int transparency = imageConst.getColorModel().getTransparency();
+        BufferedImage dest =  graphics.createCompatibleImage(imageConst.getWidth(), imageConst.getHeight(), transparency );
+        Graphics2D g2d = dest.createGraphics();
+
+        AffineTransform origAT = g2d.getTransform(); // save original transform
+
+        // rotate the coord. system of the dest. image around its center
+        AffineTransform rot = new AffineTransform();
+        rot.rotate( Math.toRadians(rotation), imageConst.getWidth()/2, imageConst.getHeight()/2);
+        g2d.transform(rot);
+
+        g2d.drawImage(imageConst, 0, 0, null);   // copy in the image
+
+        g2d.setTransform(origAT);    // restore original transform
+        g2d.dispose();
+
+        image = dest;
+        oldRot = rotation;
     }
     
 }
