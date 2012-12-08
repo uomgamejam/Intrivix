@@ -29,7 +29,7 @@ public class GameMain extends BasicGame{
         java.awt.Font f = new java.awt.Font("Consolas", java.awt.Font.PLAIN, 15);
         ttFont = new TrueTypeFont(f, true);
         
-        player = new Player(100, 100, .5f, "/assets/cirlce.png");
+        player = new Player(100, 100, .5f, "Intrivix/game/assets/cirlce.png");
     }
 
     @Override
