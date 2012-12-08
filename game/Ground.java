@@ -8,7 +8,7 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-public class Ground /*extends Sprite*/ {
+public class Ground extends Sprite {
     
     private String textureName;
     private int xLoc, yLoc;
@@ -21,9 +21,10 @@ public class Ground /*extends Sprite*/ {
         yLoc = yLoc;
         scale = scale;
     }
-    public toString()
+    @Override
+    public String toString()
     {
-        System.out.println("Texture: " + textureName + ", xLoc: " + xLoc 
-                            + ", yLoc: " + yLoc + "Scale: " + scale);
+        return ("Texture: " + textureName + ", xLoc: " + xLoc 
+                + ", yLoc: " + yLoc + "Scale: " + scale);
     }
 }
