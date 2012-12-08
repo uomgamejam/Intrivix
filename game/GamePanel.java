@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private boolean running;
     private boolean gameOver;
     private long timeScale;
-    private int FPS;
+    private double FPS = 1;
     private boolean isPaused;
     
     private boolean fullscreen = false;
@@ -41,6 +41,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private int width, height;
     private double screenScale;
+    
+    private long keyDownTime = 0, lastKeyUpTime = 0;
+    private long timeBetweenKeys = 0;
     
     Player player;
     
@@ -55,7 +58,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         
         addKeyListener(this);
         
-        player = new Player((int) (100*screenScale), (int) (100*screenScale), .4*screenScale, "circle.png");
+        player = new Player((int) (width*2/5), (int) (height/2), .4*screenScale, "circle.png");
+        player.setRotationSpeed(100*screenScale);
     }
     
     private void startGame(){
@@ -132,13 +136,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
               render();
               paintScreen();
               if (!gameOver) {
-                  afterTime = System.nanoTime()/1000000;
+                  afterTime = System.nanoTime();
                   timeScale = afterTime - beforeTime;
-                  if(timeScale > 0)
-                    FPS = (int) (1000 / timeScale);
-                  else
-                      FPS = 0;
-                  beforeTime = System.nanoTime()/1000000;
+                  if(timeScale > 0){
+                      //System.out.println("Time Scale = "+timeScale);
+                      FPS = 1000000000 / timeScale;
+                      //System.out.println("FPS = "+FPS);
+                      if(FPS == 0)
+                          FPS = 1;
+                  }else
+                      FPS = 1;
+                  beforeTime = System.nanoTime();
               }
           }
 	}
@@ -158,12 +166,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //nothing much...
+        int keyCode = e.getKeyCode();
+        if(keyCode == KeyEvent.VK_SPACE){
+            keyDownTime = System.currentTimeMillis();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        //nothing much for now...
+        int keyCode = e.getKeyCode();
+        if(keyCode == KeyEvent.VK_SPACE){
+            long keyPressTime = System.currentTimeMillis() - keyDownTime;
+            if(keyPressTime/1000.0 > 1.0){
+                //do something maybe...
+            }else{
+                timeBetweenKeys = lastKeyUpTime - System.currentTimeMillis();
+                if(timeBetweenKeys/1000 < .125){
+                    shrinkBall();
+                }else
+                    jumpBall();
+            }
+            lastKeyUpTime = System.currentTimeMillis();
+        }
+    }
+    
+    private void jumpBall(){
+        
+    }
+    
+    private void shrinkBall(){
+        
     }
     
 }
