@@ -16,6 +16,7 @@ public class Player extends Sprite{
     
     public Player(int x, int y, float scale, String imgName){
         super(x, y, scale, imgName);
+        this.setActive(true);
     }
     
     public void updatePlayer(float fps){

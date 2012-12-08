@@ -20,11 +20,12 @@ public class GameMain extends JFrame{
     
     public GameMain(){
         super("Game Jam");
-        panel = new GamePanel(this);
-        setBounds(50,0,SMALL_SCREEN_WIDTH,SMALL_SCREEN_HEIGHT);
+        setBounds(50, 0, SMALL_SCREEN_WIDTH, SMALL_SCREEN_HEIGHT);
         setResizable(false);
         ExitWindow exit = new ExitWindow();
         addWindowListener(exit);
+        
+        panel = new GamePanel(this);
         setContentPane(panel);
         setVisible(true);
     }

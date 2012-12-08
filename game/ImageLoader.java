@@ -19,6 +19,8 @@ import javax.swing.*;     // for ImageIcon
 
 public class ImageLoader
 {
+    public static final ImageLoader INSTANCE = new ImageLoader();
+    
   private final static String IMAGE_DIR = "assets/";
   private HashMap imagesMap;
   private HashMap gNamesMap;

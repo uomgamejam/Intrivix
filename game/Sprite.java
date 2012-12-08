@@ -4,6 +4,8 @@
  */
 package Intrivix.game;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Image;
@@ -33,6 +35,8 @@ public class Sprite {
     
     public int width, height;
     
+    private boolean isActive = false;
+    
     protected double locy, locx;// location of sprite
     protected double dx, dy;//speed for this sprite...
     
@@ -48,6 +52,15 @@ public class Sprite {
 
 
         imageName = imgName;
+        image = ImageLoader.INSTANCE.loadImage(imageName);
+        if (image == null) {    // no image of that name was found
+            System.out.println("No sprite image for " + imageName);
+        }
+        else {
+            width = image.getWidth();
+            height = image.getHeight();
+        }
+        imageConst = image;
         
     } // end of Sprite()
     
@@ -100,6 +113,28 @@ public class Sprite {
 
         image = dest;
         oldRot = rotation;
+    }
+    
+    public void drawSprite(Graphics g){
+        if (isActive()) {
+            if (image == null) {   // the sprite has no image
+                g.setColor(Color.yellow);   // draw a yellow circle instead
+                g.fillOval(300, 300, 30, 30);
+                g.setColor(Color.black);
+            }
+            else {
+                g.drawImage(image, (int)locx, (int)locy, null);
+            }
+        }
+    }
+    
+    
+    public boolean isActive(){
+        return isActive;
+    }
+
+    public void setActive(boolean a){
+        isActive = a;
     }
     
 }

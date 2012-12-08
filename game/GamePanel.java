@@ -4,18 +4,24 @@
  */
 package Intrivix.game;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Devin LR
  */
-public class GamePanel extends JPanel implements Runnable, MouseListener, KeyListener{    
+public class GamePanel extends JPanel implements Runnable, KeyListener{    
     
     GameMain gameFrame;
     
@@ -29,6 +35,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener, KeyLis
     private boolean isPaused;
     
     private boolean fullscreen = false;
+    private BufferedImage bgImage;
+    private Graphics2D xg = null;
+    private Image xImage = null;
+    
+    private int width, height;
     
     Player player;
     
@@ -36,6 +47,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener, KeyLis
         gameFrame = frame;
         
         setFocusable(true);
+        width = gameFrame.getBounds().width;
+        height = gameFrame.getBounds().height;
+        
+        addKeyListener(this);
+        
+        player = new Player(100, 100, .5f, "circle.png");
     }
     
     private void startGame(){
@@ -52,11 +69,50 @@ public class GamePanel extends JPanel implements Runnable, MouseListener, KeyLis
     }
     
     private void render(){
-        
+        if (xImage == null){
+          xImage = createImage(width, height);
+          if (xImage == null) {
+            System.out.println("xImage is null");
+            return;
+          }
+          else
+            xg = (Graphics2D) xImage.getGraphics();
+        }
+
+        xg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if(bgImage != null){
+            xg.drawImage(bgImage, 0, 0, null);
+        }else{
+            xg.setColor(new Color(0, 0, 0));
+                xg.fillRect (0, 0, width, height);
+        }
+
+        if (running && !gameOver)  {
+            gameRender();
+        }
+        //if (gameOver)
+          //gameOverMessage(xg);
+    }
+    
+    private void gameRender(){
+        xg.setColor(Color.black);
+
+        player.drawSprite(xg);
     }
     
     private void paintScreen(){
-        
+        Graphics g;
+        try {
+          g = this.getGraphics();
+          if ((g != null) && (xImage != null)) {
+            g.drawImage(xImage, 0, 0, null);
+            //checkStats();
+          }
+          g.dispose();
+        }
+        catch (Exception e){
+            System.out.println("Graphics context error: " + e);
+        }
     }
 
     @Override
@@ -75,7 +131,10 @@ public class GamePanel extends JPanel implements Runnable, MouseListener, KeyLis
               if (!gameOver) {
                   afterTime = System.nanoTime()/1000000;
                   timeScale = afterTime - beforeTime;
-                  FPS = (int) (1000 / timeScale);
+                  if(timeScale > 0)
+                    FPS = (int) (1000 / timeScale);
+                  else
+                      FPS = 0;
                   beforeTime = System.nanoTime()/1000000;
               }
           }
@@ -90,43 +149,18 @@ public class GamePanel extends JPanel implements Runnable, MouseListener, KeyLis
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void keyTyped(KeyEvent e) {
         //do nothing here...
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //nothing much...
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //nothing much for now...
     }
     
 }
