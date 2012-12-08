@@ -1,5 +1,5 @@
 DefaultBrick.png	0	100	1	ground
-DefaultBrick.png	100	100	1	ground
+DefaultBrick.png        100     100     1       ground
 DefaultBrick.png	200	100	1	ground
 DefaultBrick.png	300	100	1	ground
 DefaultBrick.png	400	100	1	ground
@@ -18,3 +18,4 @@ DefaultBrick.png	1600	100	1	ground
 DefaultBrick.png	1700	100	1	ground
 DefaultBrick.png	1800	100	1	ground
 DefaultBrick.png	1900	100	1	ground
+DefaultBackground.png	2000	100	1	background

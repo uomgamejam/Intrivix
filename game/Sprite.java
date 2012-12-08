@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -29,9 +30,9 @@ public class Sprite {
     
     private GraphicsConfiguration graphics;
     
-    private float scale;
-    private float rotation = 0, oldRot = 0;
-    private float speed;
+    protected double scale;
+    protected double rotation = 0, oldRot = 0;
+    protected double xspeed, yspeed;
     
     public int width, height;
     
@@ -40,7 +41,7 @@ public class Sprite {
     protected double locy, locx;// location of sprite
     protected double dx, dy;//speed for this sprite...
     
-    public Sprite(int x, int y, float scale, String imgName)
+    public Sprite(int x, int y, double scale, String imgName)
     {
         locx = x;
         locy = y;
@@ -50,6 +51,8 @@ public class Sprite {
         dx = 0;
         dy = 0;
 
+        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        graphics = environment.getDefaultScreenDevice().getDefaultConfiguration();
 
         imageName = imgName;
         image = ImageLoader.INSTANCE.loadImage(imageName);
@@ -82,11 +85,44 @@ public class Sprite {
         locy = y;
     }
     
-    public void updateSprite(float fps){
+    public void updateSprite(double fps){
         if (fps !=0) {
-            locx += dx/fps*speed;
-            locy += dy/fps*speed;
+            locx += dx/fps*xspeed;
+            locy += dy/fps*yspeed;
         }
+    }
+    
+    public void scale(){
+        if (image == null) {
+            System.out.println("input image is null");
+            return;
+        }
+        
+        int transparency = imageConst.getColorModel().getTransparency();
+        BufferedImage dest =  graphics.createCompatibleImage((int)(imageConst.getWidth()*scale), 
+                                                (int)(imageConst.getHeight()*scale), transparency );
+        Graphics2D g2d = dest.createGraphics();
+
+        AffineTransform origAT = g2d.getTransform(); // save original transform
+
+        // rotate the coord. system of the dest. image around its center
+        AffineTransform scale = new AffineTransform();
+        scale.scale(this.scale, this.scale);
+        g2d.transform(scale);
+
+        g2d.drawImage(imageConst, 0, 0, null);   // copy in the image
+
+        //g2d.setTransform(origAT);    // don't restore the original transform because we want to keep this...
+        g2d.dispose();
+        
+
+        imageConst = dest;
+        
+        //make another image so that we have two copies of the image again...
+        /*dest = graphics.createCompatibleImage(imageConst.getWidth(), imageConst.getHeight(), transparency );
+        g2d = dest.createGraphics();
+        g2d.drawImage(imageConst, 0, 0, null);
+        image = dest;*/
     }
     
     public void rotate(){

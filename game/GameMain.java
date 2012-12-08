@@ -14,6 +14,9 @@ public class GameMain extends JFrame{
     public static final int SMALL_SCREEN_WIDTH = 800;
     public static final int SMALL_SCREEN_HEIGHT = 450;
     
+    public static final int TARGET_SCREEN_WIDTH = 1960;
+    public static final int TARGET_SCREEN_HEIGHT = 1080;
+    
     Player player;
     
     GamePanel panel;
