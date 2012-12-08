@@ -14,8 +14,8 @@ public class Player extends Sprite{
     private static final double XMOV = 5;
     private static final double YMOV = 5;
     
-    public Player(int x, int y, int w, int h, String imgName){
-        super(x, y, w, h, imgName);
+    public Player(int x, int y, float scale, String imgName){
+        super(x, y, scale, imgName);
     }
     
 }

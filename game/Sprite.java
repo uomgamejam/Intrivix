@@ -22,15 +22,19 @@ public class Sprite {
     private String imageName;
     private Texture image;
     
+    private float scale;
+    
     public int width, height;
     
     protected double locy, locx;// location of sprite
     protected double dx, dy;//speed for this sprite...
     
-    public Sprite(int x, int y, int w, int h, String imgName)
+    public Sprite(int x, int y, float scale, String imgName)
     {
         locx = x;
         locy = y;
+        
+        this.scale = scale;
         
         dx = 0;
         dy = 0;

@@ -16,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
  * @author Devin
  */
 public class GameMain extends BasicGame{    
+    Player player;
     
     TrueTypeFont ttFont;
     
@@ -27,6 +28,8 @@ public class GameMain extends BasicGame{
     public void init(GameContainer container) throws SlickException {
         java.awt.Font f = new java.awt.Font("Consolas", java.awt.Font.PLAIN, 15);
         ttFont = new TrueTypeFont(f, true);
+        
+        player = new Player(100, 100, .5f, "/assets/cirlce.png");
     }
 
     @Override
