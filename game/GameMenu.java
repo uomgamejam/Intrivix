@@ -1,13 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * create 8.12.12
+ * class for the main menu 
  */
 package game;
 
 /**
  *
- * @author rich
+ * @author Richard de Mellow
  */
-public class GameMenu {
+import javax.media.opengl.*;
+
+public class GameMenu extends Frame {
     
+    //constructer class 
+    public GameMenu(){
+        
+    }
 }
