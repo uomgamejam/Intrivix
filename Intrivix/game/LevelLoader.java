@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package Intrivix.game;
+//package Intrivix.game;
 
 /**
  *
@@ -32,6 +33,7 @@ public class LevelLoader {
         while(input.hasNextLine())
         {
             String line = input.nextLine();
+            System.out.println(line);
         }
     }
     public static void main(String [] args)
