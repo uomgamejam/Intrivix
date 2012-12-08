@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Intrivix.game;
 //package Intrivix.game;
 
 /**
@@ -10,7 +9,6 @@ package Intrivix.game;
  * @author George
  */
 import java.util.Scanner;
-import java.io.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -23,7 +21,6 @@ public class LevelLoader {
     public LevelLoader(String levelname)
     {
         String levelPath = LEVEL_DIR + levelname;
-        
         Scanner input = null;
         try {
             input = new Scanner(new File(levelPath));
