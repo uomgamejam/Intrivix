@@ -17,6 +17,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private boolean gameOver = true;
     private long timeScale;
     private double FPS = 1;
+    private boolean isHighScore = false;
+    private char letter1, letter2, letter3;
+    private int currentLetterChanged = 1;
     
     private boolean fullscreen = false;
     private BufferedImage bgImage;
@@ -323,6 +327,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private void lostGame(){
         this.gameOver = true;
+        try {
+            isHighScore = Hiscores.isHiscore(""+((int)Math.round(totalDistance)));
+            currentLetterChanged = 1;
+            letter1 = 'a';
+            letter2 = 'a';
+            letter3 = 'a';
+                
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     private void gameOverMessage(Graphics g){
         Color c = g.getColor();
@@ -333,9 +347,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         }else
             g.setColor(new Color(255, 0, 0));
         
-        g.drawString("GAME OVER", width/2 - 150, height/2-50);
-        g.drawString("Press to restart!", width/2-200, height/2);
-        g.drawString("Hold to go to the menu.", width/2-225, height/2+30);
+        if(isHighScore){
+            g.drawString("GAME OVER", width/2 - 150, height/2-50);
+            g.drawString("New High Score! Please enter your name:", width/2-200, height/2);
+            g.drawString(letter1+letter2+letter3+"", width/2-225, height/2+30);
+        }else{
+            g.drawString("GAME OVER", width/2 - 150, height/2-50);
+            g.drawString("Press to restart!", width/2-200, height/2);
+            g.drawString("Hold to go to the menu.", width/2-225, height/2+30);
+        }
         
         g.setColor(c);
     }
@@ -365,18 +385,133 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         if(keyCode == KeyEvent.VK_SPACE){
             long keyPressTime = System.currentTimeMillis() - keyDownTime;
             if(keyPressTime > 200 && gameOver){
-                System.out.println("This should go back to the menu now >.>");
-                returnToMenu();
-                keyDownTime = 0;
+                if(isHighScore){
+                    System.out.println("letter selection stuffs");
+                    currentLetterChanged++;
+                    if(currentLetterChanged > 3){
+                        try {
+                            Hiscores.addHiscore(letter1+letter2+letter3+"", ""+((int)Math.round(totalDistance)),
+                                                "");
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    keyDownTime = 0;
+                }else{
+                    System.out.println("This should go back to the menu now >.>");
+                    returnToMenu();
+                    keyDownTime = 0;
+                }
             }else if(gameOver){
-                //restart the game!!! =P
-                System.out.println("this should restart the level");
-                restartGame();
-                keyDownTime = 0;
+                if(isHighScore){
+                    //restart the game!!! =P
+                    System.out.println("change the current letter");
+                    switch(currentLetterChanged){
+                        case 1:
+                            incrLetter(letter1);
+                            break;
+                        case 2:
+                            incrLetter(letter2);
+                            break;
+                        case 3:
+                            incrLetter(letter3);
+                            break;
+                    }
+                    restartGame();
+                    keyDownTime = 0;
+                }else{
+                    //restart the game!!! =P
+                    System.out.println("this should restart the level");
+                    restartGame();
+                    keyDownTime = 0;
+                }
             }else{
                 jumpBall();
                 keyDownTime = 0;
             }
+        }
+    }
+    
+    private void incrLetter(char letter){
+        switch(letter){
+            case 'a':
+                letter = 'b';
+                break;
+            case 'b':
+                letter = 'c';
+                break;
+            case 'c':
+                letter = 'd';
+                break;
+            case 'd':
+                letter = 'e';
+                break;
+            case 'e':
+                letter = 'f';
+                break;
+            case 'f':
+                letter = 'g';
+                break;
+            case 'g':
+                letter = 'h';
+                break;
+            case 'h':
+                letter = 'i';
+                break;
+            case 'i':
+                letter = 'j';
+                break;
+            case 'j':
+                letter = 'k';
+                break;
+            case 'k':
+                letter = 'l';
+                break;
+            case 'l':
+                letter = 'm';
+                break;
+            case 'm':
+                letter = 'n';
+                break;
+            case 'n':
+                letter = 'o';
+                break;
+            case 'o':
+                letter = 'p';
+                break;
+            case 'p':
+                letter = 'q';
+                break;
+            case 'q':
+                letter = 'r';
+                break;
+            case 'r':
+                letter = 's';
+                break;
+            case 's':
+                letter = 't';
+                break;
+            case 't':
+                letter = 'u';
+                break;
+            case 'u':
+                letter = 'v';
+                break;
+            case 'v':
+                letter = 'w';
+                break;
+            case 'w':
+                letter = 'x';
+                break;
+            case 'x':
+                letter = 'y';
+                break;
+            case 'y':
+                letter = 'z';
+                break;
+            case 'z':
+                letter = 'a';
+                break;
         }
     }
     

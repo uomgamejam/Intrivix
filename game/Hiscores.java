@@ -68,7 +68,7 @@ public class Hiscores {
      * @return isHiscore Returns true if the score given is large enough to be
      * on the hiscore board
      */
-    public static boolean isHiscore(String givenName, String givenScore, String givenDate) throws FileNotFoundException
+    public static boolean isHiscore(String givenScore) throws FileNotFoundException
     {
         Boolean isHiscore = false;
         scoreArray = buildScoreArray();
@@ -124,7 +124,7 @@ public class Hiscores {
     public static void main(String [] args) throws FileNotFoundException
     {
         buildScoreArray();
-        if(isHiscore("Richard", "6008", "12/12/2012"))
+        if(isHiscore("6008"))
         {
             System.out.println("Well done - Hiscore!!");
         }
