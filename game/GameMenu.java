@@ -1,4 +1,4 @@
-/*
+       /*
  * create 8.12.12
  * class for the main menu 
  */
@@ -194,9 +194,13 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                 break;
             case 2: 
                 break;
-            /*case 3: width = ((int) tk.getScreenSize().getWidth());
-                    height = ((int) tk.getScreenSize().getHeight());
-                break;*/
+            case 3: 
+                    gameStarter.setVisible(false); //you can't see me!
+                    running = false;
+                    gameStarter.dispose();
+                    GameStarter gs = new GameStarter(true);
+                    System.out.println("going full screen");
+                break;
             case 4: System.exit(0);
                 break;         
         }
