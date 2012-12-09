@@ -55,7 +55,6 @@ public class CreateLevel {
     {
         String levelName = "level6";
         String[] testObjects = {"100", "100", "1", "ground", "300", "100", "1", "ground"}; 
-        //testObjects = {"100", "100", "1", "ground", "300", "100", "1", "ground"};
         makeLevel(levelName, testObjects);
     }
 }

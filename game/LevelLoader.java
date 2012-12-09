@@ -64,7 +64,7 @@ public class LevelLoader {
     }
     public static void main(String [] args)
     {
-        loadLevel("level1.txt");
+        loadLevel("level1");
     }
 }
 
