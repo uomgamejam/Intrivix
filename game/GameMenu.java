@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import java.awt.Toolkit;  
 
 
 public class GameMenu extends JPanel implements Runnable, KeyListener
@@ -190,8 +191,13 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                     gameStarter.dispose();
                     game.setVisible(true);
                 break;
-            case 4: System.exit(0);
+            case 2: 
                 break;
+            case 3: width = ((int) tk.getScreenSize().getWidth());
+                    height = ((int) tk.getScreenSize().getHeight());
+                break;
+            case 4: System.exit(0);
+                break;         
         }
     }
     
