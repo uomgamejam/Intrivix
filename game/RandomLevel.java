@@ -17,7 +17,7 @@ import java.io.IOException;
 public class RandomLevel {
     private static int MIN_SHIFT = -2;
     private static int MAX_SHIFT = 2;
-    private static String randomLevelFileName = "./src/Intrivix/game/assets/levels/random";
+    private static String randomLevelFileName = "./src/Intrivix/game/assets/levels/level5";
     public static int randomNumber(int Min, int Max)
     {
         int random = Min + (int)(Math.random() * ((Max - Min) + 1));

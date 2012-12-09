@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         player = new Player((int) (width * 2 / 5), (int) (height / 2), .3 * screenScale, "circle.png");
 
+
         init();
 
         try {
@@ -96,7 +97,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 
         String levelName = "level" + levelNum;
-        if (levelNum != 0) {
+        if (levelNum == 5) {
+            try {
+                RandomLevel.main(null);
+            } catch (IOException ex) {
+                Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (levelNum != 0) {
             LevelLoader.loadLevel(levelName);
         } else {
             LevelLoader.loadLevel("level1");
@@ -337,8 +344,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             letter1 = 'a';
             letter2 = 'a';
             letter3 = 'a';
-            System.out.println("isHighScore = "+isHighScore);
-                
+            System.out.println("isHighScore = " + isHighScore);
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
