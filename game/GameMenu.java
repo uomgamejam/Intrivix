@@ -11,7 +11,6 @@ package Intrivix.game;
 
 
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -19,8 +18,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
-import java.awt.Toolkit;  
+import javax.swing.JPanel; 
 
 
 public class GameMenu extends JPanel implements Runnable, KeyListener
@@ -43,30 +41,36 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     private int width;
     private int height;
     private double screenScale;
-    private boolean fullscreen = false;
+    private boolean fullscreen;
     
     private BufferedImage background;
     
     private double keyDownTime;
     private int currentButtonIndex = 1;
     //constructer class 
-    public GameMenu(GameStarter gs)
+    public GameMenu(GameStarter gs, boolean full)
     {
-        gameStarter = gs;
+       gameStarter = gs;
+       fullscreen = full;
         
-        width = gameStarter.getBounds().width;
-        height = gameStarter.getBounds().height;
+       width = gameStarter.getBounds().width;
+       height = gameStarter.getBounds().height;
         
-        screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
+       screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
   
-        background = ImageLoader.INSTANCE.loadImage("GUI/background.png");
-        menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
-        menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
-        menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
-        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
-        menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+       background = ImageLoader.INSTANCE.loadImage("GUI/background.png");
+       menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
+       menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+       menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+       menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+       menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+       if(fullscreen)
+        {
+            menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+        }
        setFocusable(true);
        addKeyListener(this); 
+       
     }
     
     private void render(){
@@ -84,13 +88,9 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
 
         xg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         drawBackground(xg, background);
-        //xg.setColor(new Color(0, 0, 0));
-        //xg.fillRect (0, 0, width, height);
-
         menuRender();
     }
     private void menuRender(){
-        xg.setColor(Color.black);
         drawImageButton(xg, menuButtonsB[0], (width/2 - 150), 0,true);
         drawImageButton(xg, menuButtonsB[1], (width/2 - 50), 90, false);
         drawImageButton(xg, menuButtonsB[2], (width/2 - 50), 120, false);
@@ -110,7 +110,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
             }
             else
             {
-                g.drawImage(image, x, y, image.getWidth()/2, image.getHeight()/2,null);
+                g.drawImage(image, x, y, image.getWidth()/2 - 1, image.getHeight()/2,null);
             }
         }
     }
@@ -168,20 +168,29 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
             case 1:menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame_selected.png");
                    menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+                   if(fullscreen)
+                   {
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+                   }
                    menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
                 break;
             case 2:menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores_selected.png");
                    menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+                   if(fullscreen)
+                   {
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+                   }
                    menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
                 break;
             case 3: 
+                    System.out.println("current fullscreen value :"  + fullscreen);
                    if(fullscreen){
-                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed_selected.png");
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed_selected.png");
                    }
                    else
                    {
-                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen_selected.png");
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen_selected.png");
                    }
                    menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
                    menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
@@ -191,6 +200,10 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                    menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
                    menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png"); 
+                   if(fullscreen)
+                   {
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+                   }
                 break;
         }
     }
@@ -207,13 +220,23 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                 break;
             case 2: 
                 break;
-            case 3: fullscreen = true;
-                    gameStarter.setVisible(false); //you can't see me!
+            case 3: gameStarter.setVisible(false); //you can't see me!
                     running = false;
                     gameStarter.dispose();
-                    GameStarter gs = new GameStarter(true);
-                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png"); 
-                    System.out.println("going full screen");
+                            
+                    if(fullscreen)
+                    {
+                        fullscreen = false;
+                        GameStarter gs = new GameStarter(false);
+                    }
+                    else
+                    {
+                        fullscreen = true;
+                        GameStarter gs = new GameStarter(true);
+                    }
+                    
+                    
+                    
                 break;
             case 4: System.exit(0);
                 break;         

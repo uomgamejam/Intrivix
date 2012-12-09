@@ -4,10 +4,9 @@
  */
 package Intrivix.game;
 
-import java.awt.Container;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
@@ -30,7 +29,6 @@ public class GameStarter extends JFrame {
         if(fullscreen)
         {
             initFullScreen();
-            fullscreen = false;
         }
         else
         {
@@ -41,7 +39,7 @@ public class GameStarter extends JFrame {
         ExitWindow exit = new ExitWindow();
         addWindowListener(exit);
         
-        menu = new GameMenu(this);
+        menu = new GameMenu(this, fullscreen);
         setContentPane(menu);
         setVisible(true);
     }

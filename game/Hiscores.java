@@ -4,8 +4,7 @@
  */
 package Intrivix.game;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -51,19 +50,52 @@ public class Hiscores {
      * @return isHiscore Returns true if the score given is large enough to be
      * on the hiscore board
      */
-    public static boolean isHiscore(int givenScore)
+    public static boolean isHiscore(String givenName, String givenScore, String givenDate) throws FileNotFoundException
     {
         Boolean isHiscore = false;
         String[][] scoreArray = buildScoreArray();
         for (int index = 0; index < 10; index++)
         {
-            isHiscore = (givenScore < scoreArray[index][1]);
+            if (Integer.parseInt(givenScore) > Integer.parseInt(scoreArray[index][1])) {
+                isHiscore = true;
+                scoreArray[index][0] = givenName;
+                scoreArray[index][1] = givenScore;
+                scoreArray[index][2] = givenDate;
+                writeArray(scoreArray);
+                break;
+            }
         }
-        return false;
+        return isHiscore;
+    }
+    
+    public static void writeArray(String[][] scoreArray)
+    {
+        try
+        {    
+        FileWriter fWrite = new FileWriter(HISCORE_PATH);
+        BufferedWriter out = new BufferedWriter(fWrite);
+        for (int index = 0; index < 10; index++)
+        {
+                int indexTwo = 0;
+                String name = scoreArray[index][indexTwo];
+                String date = scoreArray[index][indexTwo + 2];
+                String score = scoreArray[index][indexTwo + 1];
+                out.write(name + "\t" + score + "\t" + date + "\n");
+        }
+        out.close();
+        }
+        catch(Exception e)
+        {
+            System.err.println("An error occured while writing the hiscore");
+        }
     }
     
     public static void main(String [] args) throws FileNotFoundException
     {
         buildScoreArray();
+        if(isHiscore("Richard", "5001", "12/12/2012"))
+        {
+            System.out.println("Well done - Hiscore!!");
+        }
     }
 }
