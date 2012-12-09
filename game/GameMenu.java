@@ -57,7 +57,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         width = gameStarter.getBounds().width;
         height = gameStarter.getBounds().height;
         
-        screenScale = (double) (width / 1920);
+        screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
   
         background = ImageLoader.INSTANCE.loadImage("GUI/background.png");
         menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
