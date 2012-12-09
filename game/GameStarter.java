@@ -20,6 +20,7 @@ public class GameStarter extends JFrame {
     GameMenu menu;
     private GraphicsDevice gd;
     
+    
     GameStarter(Boolean fullscreen){
         //Here is where we start the regular menu.
         //this class is simply here to start all the things
@@ -29,6 +30,7 @@ public class GameStarter extends JFrame {
         if(fullscreen)
         {
             initFullScreen();
+            fullscreen = false;
         }
         else
         {
@@ -58,6 +60,8 @@ public class GameStarter extends JFrame {
         }
         gd.setFullScreenWindow(this); // switch on full-screen exclusive mode
     }  // end of initFullScreen()
+    
+    
     public static void main(String[] args){
         GameStarter gs = new GameStarter(false);
     }
