@@ -70,7 +70,8 @@ public class Hiscores {
      */
     public static boolean isHiscore(String givenScore) throws FileNotFoundException
     {
-        Boolean isHiscore = false;
+        buildScoreArray();
+        boolean isHiscore = false;
         scoreArray = buildScoreArray();
         for (int index = 0; index < 10; index++)
         {
