@@ -153,7 +153,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
               }
           }
 	}
-        System.exit(0);
+        //System.exit(0);
     }
     
     private void menuUpdate(){
@@ -188,6 +188,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         {
             case 1: GameMain game = new GameMain();
                     gameStarter.setVisible(false); //you can't see me!
+                    running = false;
                     gameStarter.dispose();
                     game.setVisible(true);
                 break;
@@ -229,7 +230,12 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         int keyCode = e.getKeyCode();
         double keyElapceTime = System.currentTimeMillis() - keyDownTime;
         if(keyCode == KeyEvent.VK_SPACE){
-            if(keyElapceTime < 75){
+            if(keyElapceTime > 200){
+                System.out.println("trying to open app");
+                callMethodForButton();
+            }
+            else
+            {
                 if(currentButtonIndex == 4){
                     currentButtonIndex = 1;
                 }
@@ -238,11 +244,6 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                     currentButtonIndex += 1;
                 }
                 System.out.println(currentButtonIndex);
-            }
-            else if(keyElapceTime > 200)
-            {
-                System.out.println("trying to open app");
-                callMethodForButton();
             }
         }
         keyDownTime = 0;
