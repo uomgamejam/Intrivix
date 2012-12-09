@@ -191,7 +191,7 @@ public class LevelSelecterLogic extends JPanel implements Runnable, KeyListener 
 
         //if (menu.getFullScreen()) {
             
-            GameMain game = new GameMain(false, levelNum);
+            GameMain game = new GameMain(fullscreen, levelNum);
             game.setVisible(true);
         /*} else {
             fullscreen = true;
