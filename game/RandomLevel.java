@@ -26,9 +26,9 @@ public class RandomLevel {
     
     public static String addBlocks(int numberOfBlocks) throws IOException
     {
-        int initialX = 5;
+        int initialX = 400;
         String toWrite = "";
-        for (int index = 5; index < numberOfBlocks; index++)
+        for (int index = 0; index < numberOfBlocks; index++)
          {
              int randomShift = (50 * randomNumber(MIN_SHIFT, MAX_SHIFT));
              toWrite += ("DefaultBrick.png \t" + initialX + "\t" + (100 + randomShift) + "\t 1 \t ground \n");
