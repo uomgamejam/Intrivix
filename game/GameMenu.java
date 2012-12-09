@@ -233,7 +233,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     {
         switch(currentButtonIndex)
         {
-            case 1: GameMain game = new GameMain();
+            case 1: GameMain game = new GameMain(fullscreen);
                     gameStarter.setVisible(false); //you can't see me!
                     running = false;
                     gameStarter.dispose();
