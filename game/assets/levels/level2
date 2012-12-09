@@ -1,0 +1,27 @@
+DefaultBrick.png	0	100	1	ground
+DefaultBrick.png        100     100     1       ground
+DefaultBrick.png	200	100	1	ground
+DefaultBrick.png	300	100	1	ground
+DefaultBrick.png	400	100	1	ground
+DefaultBrick.png	500	100	1	ground
+DefaultBrick.png	600	100	1	ground
+DefaultBrick.png	700	100	1	ground
+DefaultBrick.png	800	100	1	ground
+DefaultBrick.png	900	100	1	ground
+DefaultBrick.png	1000	100	1	ground
+DefaultBrick.png	1100	100	1	ground
+DefaultBrick.png	1200	100	1	ground
+DefaultBrick.png	1300	100	1	ground
+DefaultBrick.png	1400	100	1	ground
+DefaultBrick.png	1500	100	1	ground
+DefaultBrick.png	1600	100	1	ground
+DefaultBrick.png	1700	100	1	ground
+DefaultBrick.png	1800	100	1	ground
+DefaultBrick.png	1900	100	1	ground
+DefaultBrick.png	1900	150	1	ground
+DefaultBrick.png        2000    100     1       ground
+DefaultBrick.png        2000    150     1       ground
+DefaultBrick.png        2000     200     1       ground
+DefaultBrick.png        
+null                    100     200     1       player-start
+background.png          .       .       1       scrolling-background

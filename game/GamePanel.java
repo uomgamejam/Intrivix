@@ -49,6 +49,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     public static int width, height;
     private double screenScale;
     
+    private long startTime, elapsedTime;
+    private boolean inCountDown = true;
+    private double countDownRemain = 0;
+    
     private long keyDownTime = 0;
     
     private double screenMovAccel = -3;
@@ -57,8 +61,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     Player player;
     
-    GamePanel(GameMain frame){
+    GamePanel(GameMain frame, boolean fullScreen){
         gameFrame = frame;
+        this.fullscreen = fullScreen;
         
         setFocusable(true);
         width = gameFrame.getBounds().width;
@@ -126,35 +131,49 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private void gameUpdate(){
         if (!gameOver) {
-            player.updatePlayer(FPS);
-            
-            for(Sprite s : LevelLoader.groundObjects){
-                s.updateSprite(FPS);
-                if(player.getMyRect().intersects(s.getMyRect())){
-                    if((player.locy + player.height/2) < s.locy){
-                        player.setPosStopFall(player.locx, s.locy-player.height);
-                        //System.out.println("player loc = "+player.locx+","+player.locy);
-                        //System.out.println("block loc = "+s.locx+","+s.locy);
-                    }else{
-                        //This means we have now lost the game... Shit... I just lost the game -.-
-                        //TODO lose the game (check)
-                        System.out.println("the game should have ended by now >.>");
-                        lostGame();
+            if(inCountDown){
+                updateCountDown();
+                
+            }else{
+                player.updatePlayer(FPS);
+
+                for(Sprite s : LevelLoader.groundObjects){
+                    s.updateSprite(FPS);
+                    if(player.getMyRect().intersects(s.getMyRect())){
+                        if((player.locy + player.height/2) < s.locy){
+                            player.setPosStopFall(player.locx, s.locy-player.height);
+                            //System.out.println("player loc = "+player.locx+","+player.locy);
+                            //System.out.println("block loc = "+s.locx+","+s.locy);
+                        }else{
+                            //This means we have now lost the game... Shit... I just lost the game -.-
+                            //TODO lose the game (check)
+                            System.out.println("the game should have ended by now >.>");
+                            lostGame();
+                        }
+
                     }
-                    
                 }
+                for(Sprite s : LevelLoader.backgroundObjects){
+                    s.updateSprite(FPS);
+                }
+
+                if(player.locy > height){
+                    lostGame();
+                }
+
+                LevelLoader.scrollingBackground.updateBG(FPS);
+
+                updateScreenMov();
             }
-            for(Sprite s : LevelLoader.backgroundObjects){
-                s.updateSprite(FPS);
-            }
-            
-            if(player.locy > height){
-                lostGame();
-            }
-            
-            LevelLoader.scrollingBackground.updateBG(FPS);
-            
-            updateScreenMov();
+        }
+    }
+    
+    private void updateCountDown(){
+        elapsedTime = System.currentTimeMillis() - startTime;
+        countDownRemain = 5 - elapsedTime/1000.0;
+        
+        if(countDownRemain <= 0){
+            this.inCountDown = false;
         }
     }
     
@@ -218,6 +237,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         }
         
         drawHUD(xg);
+        if(this.inCountDown)
+            drawCountDown(xg);
+    }
+    private void drawCountDown(Graphics2D g){
+        Color c = g.getColor();
+        g.setColor(Color.GREEN);
+        g.setFont(font);
+        
+        g.drawString(""+Math.round(countDownRemain), (int)(width/2), (int)(height/2));
+        
+        g.setColor(c);
     }
     
     private void drawHUD(Graphics2D g){
@@ -252,6 +282,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         gameStartTime = System.nanoTime();
         beforeTime = gameStartTime/1000000;
 
+        startTime = System.currentTimeMillis();
 	running = true;
 
 	while(running) {
@@ -265,16 +296,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
                 //System.out.println("Time Scale = "+timeScale);
                 FPS = 1000000000 / timeScale;
                 //System.out.println("FPS = "+FPS);
-                if(FPS == 0)
+                if(FPS <= 10)
                     FPS = 10;
             }else
-                FPS = 10;
+                FPS = 100;
             beforeTime = System.nanoTime();
 	}
         //System.exit(0);
     }
     
     private void restartGame(){
+        player = new Player((int) (width*2/5), (int) (height/2), .3*screenScale, "circle.png");
+        
         LevelLoader.backgroundObjects.clear();
         LevelLoader.groundObjects.clear();
         
@@ -282,8 +315,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         
         init();
         
-        LevelLoader.scrollingBackground.initBG(width, height, screenScale);
-        
+        LevelLoader.scrollingBackground.reinitBG(width, height);
+        startTime = System.currentTimeMillis();
+        inCountDown = true;
         gameOver = false;
     }
     

@@ -25,6 +25,12 @@ public class ScrollingBackground {
         background1.setActive(true);
         background2.setActive(true);
     }
+    public void reinitBG(int width, int height){
+        background1.setPosition(0, 0);
+        background1.scale();
+        background2.setPosition(background1.width, 0);
+        background2.scale();
+    }
     
     public void updateBG(double FPS){
         background1.updateSprite(FPS);

@@ -6,7 +6,7 @@ package Intrivix.game;
 
 /**
  *
- * @author George
+ * @author george vanburgh
  */
 import java.util.Scanner;
 import java.io.*;
