@@ -345,7 +345,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             letter1 = 'a';
             letter2 = 'a';
             letter3 = 'a';
-            System.out.println("isHighScore = " + isHighScore);
+            System.out.println("isHighScore = " + isHighScore +", score="+((int) Math.abs(totalDistance)));
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
