@@ -26,9 +26,9 @@ public class RandomLevel {
     
     public static String addBlocks(int numberOfBlocks) throws IOException
     {
-        int initialX = 0;
-        String toWrite = null;
-        for (int index = 0; index < numberOfBlocks; index++)
+        int initialX = 5;
+        String toWrite = "";
+        for (int index = 5; index < numberOfBlocks; index++)
          {
              int randomShift = (50 * randomNumber(MIN_SHIFT, MAX_SHIFT));
              toWrite += ("DefaultBrick.png \t" + initialX + "\t" + (100 + randomShift) + "\t 1 \t ground \n");
@@ -46,13 +46,14 @@ public class RandomLevel {
         out.close();
     }
     
-    public static void main(String [] args) throws IOException
+    public static void generateLevel() throws IOException
     {
         String straightBlocks = "DefaultBrick.png 	0	100	 1 	 ground \n" +
                                 "DefaultBrick.png 	100	100	 1 	 ground \n" +
                                 "DefaultBrick.png 	200	100	 1 	 ground \n" +
-                                "DefaultBrick.png 	300	100	 1 	 ground ";
+                                "DefaultBrick.png 	300	100	 1 	 ground \n";
         String blockData = addBlocks(100);
-        writeString(straightBlocks + blockData + "null \t 100 \t 150 \t 1 \t playerstart \n background.png \t . \t . \t scrolling-background \n");
+        writeString(straightBlocks + blockData + "null                    100     150     1       player-start\n" +
+"background.png          .       .       1       scrolling-background");
     }
 }
