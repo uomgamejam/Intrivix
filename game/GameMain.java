@@ -24,11 +24,9 @@ public class GameMain extends JFrame{
     GamePanel panel;
     private GraphicsDevice gd;
     
-<<<<<<< HEAD
+
     public GameMain(boolean fullScreen, int levelNum){
-=======
-    public GameMain(boolean fullScreen, int level){
->>>>>>> cf34878434e13f55fd88c71c54b44afad301b3d2
+
         /*super("$Game");
         setBounds(50, 0, SMALL_SCREEN_WIDTH, SMALL_SCREEN_HEIGHT);
         setResizable(false);
@@ -55,11 +53,9 @@ public class GameMain extends JFrame{
         ExitWindow exit = new ExitWindow();
         addWindowListener(exit);
         
-<<<<<<< HEAD
+
         panel = new GamePanel(this, fullScreen, levelNum);
-=======
-        panel = new GamePanel(this, fullScreen, level);
->>>>>>> cf34878434e13f55fd88c71c54b44afad301b3d2
+
         setContentPane(panel);
         setVisible(true);
     }
