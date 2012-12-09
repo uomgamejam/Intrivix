@@ -57,7 +57,9 @@ public class Player extends Sprite{
         //locy = GamePanel.height/2;
         isJumping = false;
         isDoubleJumping = false;
-        setSpeed(0, 0);
+        yAcceleration = 0;
+        yspeed = 0;
+        setSpeed(0, 1);
     }
     
     /**
