@@ -11,7 +11,6 @@ package Intrivix.game;
 
 
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -19,8 +18,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
-import java.awt.Toolkit;  
+import javax.swing.JPanel; 
 
 
 public class GameMenu extends JPanel implements Runnable, KeyListener
@@ -67,6 +65,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
        setFocusable(true);
        addKeyListener(this); 
+       
     }
     
     private void render(){
@@ -84,13 +83,9 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
 
         xg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         drawBackground(xg, background);
-        //xg.setColor(new Color(0, 0, 0));
-        //xg.fillRect (0, 0, width, height);
-
         menuRender();
     }
     private void menuRender(){
-        xg.setColor(Color.black);
         drawImageButton(xg, menuButtonsB[0], (width/2 - 150), 0,true);
         drawImageButton(xg, menuButtonsB[1], (width/2 - 50), 90, false);
         drawImageButton(xg, menuButtonsB[2], (width/2 - 50), 120, false);
@@ -110,7 +105,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
             }
             else
             {
-                g.drawImage(image, x, y, image.getWidth()/2, image.getHeight()/2,null);
+                g.drawImage(image, x, y, image.getWidth()/2 - 1, image.getHeight()/2,null);
             }
         }
     }
