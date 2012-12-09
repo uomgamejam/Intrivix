@@ -13,10 +13,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.net.URL;
 
 public class LevelLoader {
     //String to contain the location of the level files
-    private final static String LEVEL_DIR = "assets/levels/";
+    private final static String LEVEL_DIR = "./src/Intrivix/game/assets/levels/";
     public static ArrayList<Sprite> groundObjects = new ArrayList<Sprite>();
     public static ArrayList<Sprite> backgroundObjects = new ArrayList<Sprite>();
     public static ScrollingBackground scrollingBackground = null;
