@@ -113,6 +113,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             s.setSpeed(1, 0);
             s.xspeed = screenMovSpeed;
         }
+        
+        LevelLoader.scrollingBackground.initBG(width, height, screenScale);
     }
     
     private void startGame(){
@@ -150,6 +152,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
                 lostGame();
             }
             
+            LevelLoader.scrollingBackground.updateBG(FPS);
+            
             updateScreenMov();
         }
     }
@@ -168,6 +172,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             s.setSpeed(1, 0);
             s.xspeed = screenMovSpeed;
         }
+        
+        LevelLoader.scrollingBackground.setSpeed(1, 0, screenMovSpeed/3);
     }
     
     private void render(){
@@ -198,6 +204,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private void gameRender(){
         xg.setColor(Color.black);
+        
+        LevelLoader.scrollingBackground.drawBG(xg);
         
         for(int i=0; i<LevelLoader.backgroundObjects.size(); i++){
             LevelLoader.backgroundObjects.get(i).drawSprite(xg);
@@ -273,6 +281,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         totalDistance = 0;
         
         init();
+        
+        LevelLoader.scrollingBackground.initBG(width, height, screenScale);
         
         gameOver = false;
     }

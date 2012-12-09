@@ -51,7 +51,8 @@ public class LevelLoader {
                     break;
                 case "scrolling-background":
                     System.out.println("I shall create a scrolling background object");
-                    scrollingBackground = new ScrollingBackground(Integer.parseInt(row[1]), Integer.parseInt(row[2]), Double.parseDouble(row[3]), row[0]);
+                    if(scrollingBackground == null)
+                        scrollingBackground = new ScrollingBackground(row[0]);
                     break;
                 case "player-start":
                     System.out.println("I shall create a player start object");
