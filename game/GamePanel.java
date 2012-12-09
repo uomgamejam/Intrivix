@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private long keyDownTime = 0;
     
-    private double screenMovAccel = -2;
+    private double screenMovAccel = -3;
     private double screenMovSpeed = -450;
     
     Player player;
@@ -101,9 +101,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             for(Sprite s : LevelLoader.groundObjects){
                 s.updateSprite(FPS);
                 if(player.getMyRect().intersects(s.getMyRect())){
-                    player.setPosStopFall(player.locx, s.locy-player.height);
-                    System.out.println("player loc = "+player.locx+","+player.locy);
-                    System.out.println("block loc = "+s.locx+","+s.locy);
+                    if((player.locy + player.height/2) < s.locy){
+                        player.setPosStopFall(player.locx, s.locy-player.height);
+                        //System.out.println("player loc = "+player.locx+","+player.locy);
+                        //System.out.println("block loc = "+s.locx+","+s.locy);
+                    }else{
+                        //This means we have now lost the game... Shit... I just lost the game -.-
+                        //TODO lose the game (check)
+                    }
+                    
                 }
             }
             for(Sprite s : LevelLoader.backgroundObjects){
@@ -157,14 +163,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private void gameRender(){
         xg.setColor(Color.black);
-
+        
+        for(int i=0; i<LevelLoader.backgroundObjects.size(); i++){
+            LevelLoader.backgroundObjects.get(i).drawSprite(xg);
+        }
+        
         player.drawSprite(xg);
         
         for(int i=0; i<LevelLoader.groundObjects.size(); i++){
             LevelLoader.groundObjects.get(i).drawSprite(xg);
-        }
-        for(int i=0; i<LevelLoader.backgroundObjects.size(); i++){
-            LevelLoader.backgroundObjects.get(i).drawSprite(xg);
         }
     }
     
