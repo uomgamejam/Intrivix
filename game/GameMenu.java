@@ -181,6 +181,19 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         }
     }
     
+    private void callMethodForButton()
+    {
+        switch(currentButtonIndex)
+        {
+            case 1: //GameMain game = new GameMain();
+                    gameStarter.setVisible(false); //you can't see me!
+                    gameStarter.dispose();
+                    System.exit(1);
+                break;
+                 
+        }
+    }
+    
     @Override
     public void addNotify(){
         super.addNotify();
@@ -219,10 +232,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                 }
                 System.out.println(currentButtonIndex);
             }
-        }
-        else 
-        {
-               
+            else if(keyElapceTime > 200)
+            {
+                System.out.println("trying to open app");
+                callMethodForButton();
+            }
         }
         keyDownTime = 0;
     }
