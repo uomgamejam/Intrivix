@@ -22,7 +22,7 @@ public class GameMain extends JFrame{
     GamePanel panel;
     
     public GameMain(){
-        super("Game Jam");
+        super("$Game");
         setBounds(50, 0, SMALL_SCREEN_WIDTH, SMALL_SCREEN_HEIGHT);
         setResizable(false);
         ExitWindow exit = new ExitWindow();

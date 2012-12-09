@@ -44,6 +44,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private long keyDownTime = 0;
     
+    private double screenMovAccel = -2;
+    private double screenMovSpeed = -450;
     
     Player player;
     
@@ -55,13 +57,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         height = gameFrame.getBounds().height;
         
         screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
+        screenMovSpeed *= screenScale;
         
         addKeyListener(this);
         
-        player = new Player((int) (width*2/5), (int) (height/2), .4*screenScale, "circle.png");
-        player.setRotationSpeed(100*screenScale);
+        player = new Player((int) (width*2/5), (int) (height/2), .3*screenScale, "circle.png");
+        player.setRotationSpeed(screenMovSpeed/-3);
         
-        LevelLoader.loadLevel("level1.txt");
+        LevelLoader.loadLevel("level1");
         System.out.println("we've loaded all the things");
         
         //LevelLoader.playerStart;
@@ -73,6 +76,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             
             LevelLoader.groundObjects.get(i).locx = player.locx - xDiff;
             LevelLoader.groundObjects.get(i).locy = height - (player.locy - yDiff);
+            
+            LevelLoader.groundObjects.get(i).setSpeed(1, 0);
+            LevelLoader.groundObjects.get(i).xspeed = screenMovSpeed;
+        }
+        
+        for(Sprite s : LevelLoader.backgroundObjects){
+            s.setSpeed(1, 0);
+            s.xspeed = screenMovSpeed;
         }
     }
     
@@ -98,6 +109,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             for(Sprite s : LevelLoader.backgroundObjects){
                 s.updateSprite(FPS);
             }
+            
+            updateScreenMov();
+        }
+    }
+    
+    private void updateScreenMov(){
+        screenMovSpeed += screenMovAccel/FPS;
+        
+        player.setRotationSpeed(screenMovSpeed/-3);
+        
+        for(Sprite s : LevelLoader.backgroundObjects){
+            s.setSpeed(1, 0);
+            s.xspeed = screenMovSpeed;
+        }
+        for(Sprite s : LevelLoader.groundObjects){
+            s.setSpeed(1, 0);
+            s.xspeed = screenMovSpeed;
         }
     }
     
