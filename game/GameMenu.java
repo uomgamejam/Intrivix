@@ -48,7 +48,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     
     private int width;
     private int height;
-    private int screenScale;
+    private double screenScale;
     
     private Sprite background;
     //constructer class 
@@ -58,9 +58,10 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         
         width = gameStarter.getBounds().width;
         height = gameStarter.getBounds().height;
-       //screenScale = width / (double) 1920;
+        
+        screenScale = (double) (width / 1920);
   
-        //background = new Sprite(0, 0, (int)screenScale, "GUI/background.png");
+        background = new Sprite(0, 0, screenScale, "GUI/background.png");
         titleImageB = ImageLoader.INSTANCE.loadImage("GUI/title.png");
         newGameImageB = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
         highScoresImageB = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
