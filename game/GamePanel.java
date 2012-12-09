@@ -62,6 +62,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         player.setRotationSpeed(100*screenScale);
         
         LevelLoader.loadLevel("level1.txt");
+        System.out.println("we've loaded all the things");
+        
+        //LevelLoader.playerStart;
+        for(int i=0; i<LevelLoader.groundObjects.size(); i++){
+            double xDiff = LevelLoader.playerStart.xloc -
+                    LevelLoader.groundObjects.get(i).locx;
+            double yDiff = LevelLoader.playerStart.yloc -
+                    LevelLoader.groundObjects.get(i).locy;
+            
+            LevelLoader.groundObjects.get(i).locx = player.locx - xDiff;
+            LevelLoader.groundObjects.get(i).locy = height - (player.locy - yDiff);
+        }
     }
     
     private void startGame(){
@@ -77,6 +89,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             
             for(Sprite s : LevelLoader.groundObjects){
                 s.updateSprite(FPS);
+                if(player.getMyRect().intersects(s.getMyRect())){
+                    player.setPosStopFall(player.locx, s.locy-player.height);
+                    System.out.println("player loc = "+player.locx+","+player.locy);
+                    System.out.println("block loc = "+s.locx+","+s.locy);
+                }
             }
             for(Sprite s : LevelLoader.backgroundObjects){
                 s.updateSprite(FPS);
@@ -115,11 +132,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
         player.drawSprite(xg);
         
-        for(Sprite s : LevelLoader.groundObjects){
-            s.updateSprite(FPS);
+        for(int i=0; i<LevelLoader.groundObjects.size(); i++){
+            LevelLoader.groundObjects.get(i).drawSprite(xg);
         }
-        for(Sprite s : LevelLoader.backgroundObjects){
-            s.updateSprite(FPS);
+        for(int i=0; i<LevelLoader.backgroundObjects.size(); i++){
+            LevelLoader.backgroundObjects.get(i).drawSprite(xg);
         }
     }
     

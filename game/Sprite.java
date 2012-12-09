@@ -117,6 +117,8 @@ public class Sprite {
         
 
         imageConst = dest;
+        width = imageConst.getWidth();
+        height = imageConst.getHeight();
         
         //make another image so that we have two copies of the image again...
         /*dest = graphics.createCompatibleImage(imageConst.getWidth(), imageConst.getHeight(), transparency );
@@ -159,7 +161,7 @@ public class Sprite {
                 g.setColor(Color.black);
             }
             else {
-                g.drawImage(image, (int)locx, (int)locy, null);
+                g.drawImage(image, (int)locx, (int)(locy), null);
             }
         }
     }

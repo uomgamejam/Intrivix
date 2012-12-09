@@ -8,9 +8,11 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-public class ScrollingBackground creates Sprite {    
+public class ScrollingBackground {
+    Sprite background;
+    
     public ScrollingBackground(int x, int y, double givenScale, String imgName)
     {
-        super(x, y, givenScale, imgName);
+        background = new Sprite(x, y, givenScale, imgName);
     }
 }

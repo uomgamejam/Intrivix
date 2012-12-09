@@ -19,7 +19,7 @@ public class Player extends Sprite{
     //code needed for the player's jump
     private boolean isJumping = false, isDoubleJumping = false;
     private static final double JUMP_SPEED = 500;
-    private double yAcceleration = JUMP_SPEED;
+    private double yAcceleration = 0;
     private double gravity = 9001;
     
     public Player(int x, int y, double scale, String imgName){
@@ -27,6 +27,7 @@ public class Player extends Sprite{
         this.setActive(true);
         
         scale();
+        setSpeed(0, .5);
     }
     
     public void updatePlayer(double fps){
@@ -36,9 +37,7 @@ public class Player extends Sprite{
         updateRotation(fps);
         this.rotate();
         
-        if(isJumping){
-            updateJump(fps);
-        }
+        updateGravity(fps);
     }
     
     private void updateRotation(double fps){
@@ -47,17 +46,18 @@ public class Player extends Sprite{
         //System.out.println("rot += "+ (rotationSpeed/fps));
     }
     
-    private void updateJump(double fps){
+    private void updateGravity(double fps){
         yspeed -= yAcceleration/fps;
         yAcceleration -= gravity/fps;
+    }
+    public void setPosStopFall(double locx, double locy){
+        this.locx = locx;
+        this.locy = locy;
         
-        //System.out.println("locy = "+locy+", panelHeight/2 = "+(GamePanel.height/2));
-        if(locy > GamePanel.height/2){
-            locy = GamePanel.height/2;
-            isJumping = false;
-            isDoubleJumping = false;
-            setSpeed(0, 0);
-        }
+        //locy = GamePanel.height/2;
+        isJumping = false;
+        isDoubleJumping = false;
+        setSpeed(0, 0);
     }
     
     /**

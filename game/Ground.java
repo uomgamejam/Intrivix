@@ -8,9 +8,13 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-public class Ground extends Sprite {    
+public class Ground extends Sprite {
+    
     public Ground(int x, int y, double givenScale, String imgName)
     {
         super(x, y, givenScale, imgName);
+        this.setActive(true);
+        
+        scale();
     }
 }
