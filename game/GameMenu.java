@@ -231,6 +231,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener {
                 gameStarter.dispose();
                 break;
             case 3:
+                HiScoreView newHV = new HiScoreView();
+                newHV.setVisible(true);
+                gameStarter.setVisible(false); //you can't see me!
+                running = false;
+                gameStarter.dispose();
                 break;
             case 4:
                 gameStarter.setVisible(false); //you can't see me!
