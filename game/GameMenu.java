@@ -41,16 +41,17 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     private int width;
     private int height;
     private double screenScale;
-    private boolean fullscreen = false;
+    private boolean fullscreen;
     
     private BufferedImage background;
     
     private double keyDownTime;
     private int currentButtonIndex = 1;
     //constructer class 
-    public GameMenu(GameStarter gs)
+    public GameMenu(GameStarter gs, boolean full)
     {
         gameStarter = gs;
+        fullscreen = full;
         
         width = gameStarter.getBounds().width;
         height = gameStarter.getBounds().height;
@@ -172,11 +173,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                 break;
             case 3: 
                    if(fullscreen){
-                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed_selected.png");
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed_selected.png");
                    }
                    else
                    {
-                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen_selected.png");
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen_selected.png");
                    }
                    menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
                    menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");

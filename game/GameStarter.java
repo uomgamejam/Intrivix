@@ -41,7 +41,7 @@ public class GameStarter extends JFrame {
         ExitWindow exit = new ExitWindow();
         addWindowListener(exit);
         
-        menu = new GameMenu(this);
+        menu = new GameMenu(this, fullscreen);
         setContentPane(menu);
         setVisible(true);
     }
