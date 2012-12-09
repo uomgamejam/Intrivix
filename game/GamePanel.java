@@ -19,6 +19,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -34,8 +35,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private Thread thread;
     
     private long gameStartTime;
-    private boolean running;
-    private boolean gameOver;
+    private boolean running = false;
+    private boolean gameOver = true;
     private long timeScale;
     private double FPS = 1;
     
@@ -51,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private long keyDownTime = 0;
     
     private double screenMovAccel = -3;
-    private double screenMovSpeed = -450;
+    private double screenMovSpeed = -750;
     private double totalDistance = 0;
     
     Player player;
@@ -69,6 +70,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         addKeyListener(this);
         
         player = new Player((int) (width*2/5), (int) (height/2), .3*screenScale, "circle.png");
+        
+        init();
+        
+        try {
+            InputStream fin = this.getClass().getResourceAsStream("fonts/ikarus.ttf");
+            font = Font.createFont(Font.TRUETYPE_FONT, fin).deriveFont(30f);
+            font = font.deriveFont(Font.BOLD);
+        } catch (FontFormatException ex) {
+            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("font error");
+        } catch (IOException ex) {
+            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("font error");
+        }
+        
+        gameOver = false;
+    }
+    
+    private void init(){
+        player.setPosition((int) (width*2/5), (int) (height/2));
         player.setRotationSpeed(screenMovSpeed/-3);
         
         LevelLoader.loadLevel("level1");
@@ -91,18 +112,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         for(Sprite s : LevelLoader.backgroundObjects){
             s.setSpeed(1, 0);
             s.xspeed = screenMovSpeed;
-        }
-        
-        try {
-            InputStream fin = this.getClass().getResourceAsStream("fonts/ikarus.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, fin).deriveFont(30f);
-            font = font.deriveFont(Font.BOLD);
-        } catch (FontFormatException ex) {
-            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("font error");
-        } catch (IOException ex) {
-            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("font error");
         }
     }
     
@@ -249,12 +258,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
                 FPS = 1000000000 / timeScale;
                 //System.out.println("FPS = "+FPS);
                 if(FPS == 0)
-                    FPS = 1;
+                    FPS = 10;
             }else
-                FPS = 1;
+                FPS = 10;
             beforeTime = System.nanoTime();
 	}
         //System.exit(0);
+    }
+    
+    private void restartGame(){
+        LevelLoader.backgroundObjects.clear();
+        LevelLoader.groundObjects.clear();
+        
+        totalDistance = 0;
+        
+        init();
+        
+        gameOver = false;
     }
     
     private void lostGame(){
@@ -262,10 +282,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     }
     private void gameOverMessage(Graphics g){
         Color c = g.getColor();
-        g.setColor(Color.RED);
+        if(keyDownTime != 0){
+            long keyPressTime = System.currentTimeMillis() - keyDownTime;
+            int grn = keyPressTime < 255 ? (int)keyPressTime : 255;
+            g.setColor(new Color(255 - grn, grn, 0));
+        }else
+            g.setColor(new Color(255, 0, 0));
         
         g.drawString("GAME OVER", width/2 - 150, height/2-50);
-        g.drawString("Your final score: " + ((int) Math.abs(totalDistance)), width/2-225, height/2);
+        g.drawString("Press to restart!", width/2-200, height/2);
+        g.drawString("Hold to go to the menu.", width/2-225, height/2+30);
         
         g.setColor(c);
     }
@@ -284,7 +310,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if(keyCode == KeyEvent.VK_SPACE){
+        if(keyCode == KeyEvent.VK_SPACE && keyDownTime == 0){
             keyDownTime = System.currentTimeMillis();
         }
     }
@@ -294,12 +320,34 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         int keyCode = e.getKeyCode();
         if(keyCode == KeyEvent.VK_SPACE){
             long keyPressTime = System.currentTimeMillis() - keyDownTime;
-            if(keyPressTime/1000.0 > 1.0){
-                //do something maybe...
+            if(keyPressTime > 200 && gameOver){
+                System.out.println("This should go back to the menu now >.>");
+                returnToMenu();
+                keyDownTime = 0;
+            }else if(gameOver){
+                //restart the game!!! =P
+                System.out.println("this should restart the level");
+                restartGame();
+                keyDownTime = 0;
             }else{
                 jumpBall();
+                keyDownTime = 0;
             }
         }
+    }
+    
+    private void returnToMenu(){
+        running = false;
+        LevelLoader.backgroundObjects.clear();
+        LevelLoader.groundObjects.clear();
+        LevelLoader.playerStart = null;
+        LevelLoader.scrollingBackground = null;
+        
+        GameStarter gs = new GameStarter(false);
+        this.gameFrame.setVisible(false);
+        running = false;
+        gameFrame.dispose();
+        gs.setVisible(true);
     }
     
     private void jumpBall(){
