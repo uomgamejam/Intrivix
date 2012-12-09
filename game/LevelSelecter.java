@@ -16,11 +16,12 @@ import javax.swing.JFrame;
 public class LevelSelecter extends JFrame{
     
     private GraphicsDevice gd;
+    private LevelSelecterLogic newPanel;
     
     public LevelSelecter(boolean fullscreen)
     {
         super("$Game");
-        setResizable(false);
+        
         if(fullscreen)
         {
             initFullScreen();
@@ -29,16 +30,17 @@ public class LevelSelecter extends JFrame{
         {
             setBounds(50, 0, GameMain.SMALL_SCREEN_WIDTH, GameMain.SMALL_SCREEN_HEIGHT);
         }
+        setResizable(false);
         ExitWindow exit = new ExitWindow();
         addWindowListener(exit);
-        
-        JPanel levelPanel = new JPanel();
-        
-        setContentPane();
+        newPanel = new LevelSelecterLogic(this, fullscreen);
+        setContentPane(newPanel);
         setVisible(true);
+        
+        
     }
     
-        private void initFullScreen() {
+    private void initFullScreen() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         gd = ge.getDefaultScreenDevice();
 
