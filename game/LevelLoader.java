@@ -17,12 +17,12 @@ import java.util.logging.Logger;
 public class LevelLoader {
     //String to contain the location of the level files
     private final static String LEVEL_DIR = "assets/levels/";
-    private static ArrayList groundObjects = new ArrayList();
-    private static ArrayList backgroundObjects = new ArrayList();
-    private static ScrollingBackground scrollingBackground = null;
-    private static PlayerStart playerStart = null;
+    public static ArrayList groundObjects = new ArrayList();
+    public static ArrayList backgroundObjects = new ArrayList();
+    public static ScrollingBackground scrollingBackground = null;
+    public static PlayerStart playerStart = null;
     
-    public static void LevelLoader(String levelname)
+    public static void loadLevel(String levelname)
     {
         Scanner scan = null;
         try {
@@ -54,7 +54,7 @@ public class LevelLoader {
                     break;
                 case "player-start":
                     System.out.println("I shall create a player start object");
-                    playerStart = new PlayerStart(Integer.parseInt(row[1]), Integer.parseInt(row[2]), Double.parseDouble(row[3]), row[0]);
+                    playerStart = new PlayerStart(Integer.parseInt(row[1]), Integer.parseInt(row[2]));
                     break;
                 default:
                     System.err.println("Level file: Undefined object");
@@ -63,7 +63,7 @@ public class LevelLoader {
     }
     public static void main(String [] args)
     {
-        LevelLoader("level1.txt");
+        loadLevel("level1.txt");
     }
 }
 

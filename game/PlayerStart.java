@@ -8,9 +8,12 @@ package Intrivix.game;
  *
  * @author georgevanburgh
  */
-public class PlayerStart extends Sprite {    
-    public PlayerStart(int x, int y, double givenScale, String imgName)
+public class PlayerStart{
+    public final int xloc, yloc;
+    
+    public PlayerStart(int x, int y)
     {
-        super(x, y, givenScale, imgName);
+        xloc = x;
+        yloc = y;
     }
 }

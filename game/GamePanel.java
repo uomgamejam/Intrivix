@@ -60,6 +60,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         
         player = new Player((int) (width*2/5), (int) (height/2), .4*screenScale, "circle.png");
         player.setRotationSpeed(100*screenScale);
+        
+        LevelLoader.loadLevel("level1.txt");
     }
     
     private void startGame(){
