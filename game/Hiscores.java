@@ -24,19 +24,22 @@ public class Hiscores {
     public static String[] buildScoreArray() throws FileNotFoundException
     {
         Scanner input = new Scanner(new File(HISCORE_PATH));
+        String[][] scoreArray = new String[10][3];
+        int row = 0;
         while(input.hasNextLine())
         { 
-                for(int index = 0; index < 10; index++)
-                {
-                    String [] row = input.nextLine().split("\\s+");
-                    hiscoreArray[index] = row [indexTwo];
-                }
-            for(int indexThree = 0; indexThree < 10; indexThree++)
+           String column[] = input.nextLine().split("\\s+");
+           for (int index = 0; index < 3; index++ ) 
+           {
+                scoreArray[row][index] = column[index];
+           }
+           row++;
+        }
+        for(int colIndex = 0; colIndex < 10; colIndex++)
+        {
+            for(int rowIndex = 0; rowIndex < 3; rowIndex++)
             {
-                for(int indexFour = 0; indexFour < 3; indexFour++)
-                {
-                    System.out.println(hiscoreArray[indexFour]);
-                }
+                System.out.println(scoreArray[colIndex][rowIndex]);
             }
         }
         

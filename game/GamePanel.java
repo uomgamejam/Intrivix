@@ -5,6 +5,8 @@
 package Intrivix.game;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,6 +17,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -32,12 +38,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private boolean gameOver;
     private long timeScale;
     private double FPS = 1;
-    private boolean isPaused;
     
     private boolean fullscreen = false;
     private BufferedImage bgImage;
     private Graphics2D xg = null;
     private Image xImage = null;
+    private Font font = new Font("Serif", Font.BOLD, 30);
     
     public static int width, height;
     private double screenScale;
@@ -46,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     
     private double screenMovAccel = -3;
     private double screenMovSpeed = -450;
+    private double totalDistance = 0;
     
     Player player;
     
@@ -85,6 +92,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             s.setSpeed(1, 0);
             s.xspeed = screenMovSpeed;
         }
+        
+        try {
+            InputStream fin = this.getClass().getResourceAsStream("fonts/ikarus.ttf");
+            font = Font.createFont(Font.TRUETYPE_FONT, fin).deriveFont(30f);
+            font = font.deriveFont(Font.BOLD);
+        } catch (FontFormatException ex) {
+            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("font error");
+        } catch (IOException ex) {
+            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("font error");
+        }
     }
     
     private void startGame(){
@@ -95,7 +114,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     }
     
     private void gameUpdate(){
-        if (!isPaused && !gameOver) {
+        if (!gameOver) {
             player.updatePlayer(FPS);
             
             for(Sprite s : LevelLoader.groundObjects){
@@ -108,6 +127,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
                     }else{
                         //This means we have now lost the game... Shit... I just lost the game -.-
                         //TODO lose the game (check)
+                        System.out.println("the game should have ended by now >.>");
+                        lostGame();
                     }
                     
                 }
@@ -116,12 +137,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
                 s.updateSprite(FPS);
             }
             
+            if(player.locy > height){
+                lostGame();
+            }
+            
             updateScreenMov();
         }
     }
     
     private void updateScreenMov(){
         screenMovSpeed += screenMovAccel/FPS;
+        totalDistance += screenMovSpeed/FPS;
         
         player.setRotationSpeed(screenMovSpeed/-3);
         
@@ -154,11 +180,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
                 xg.fillRect (0, 0, width, height);
         }
 
-        if (running && !gameOver)  {
+        if (running)  {
             gameRender();
         }
-        //if (gameOver)
-          //gameOverMessage(xg);
+        if (gameOver)
+          gameOverMessage(xg);
     }
     
     private void gameRender(){
@@ -173,6 +199,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         for(int i=0; i<LevelLoader.groundObjects.size(); i++){
             LevelLoader.groundObjects.get(i).drawSprite(xg);
         }
+        
+        drawHUD(xg);
+    }
+    
+    private void drawHUD(Graphics2D g){
+        Color c = g.getColor();
+        g.setColor(Color.GREEN);
+        g.setFont(font);
+        
+        g.drawString("Score: " + ((int) Math.abs(totalDistance)), (int)(100*screenScale),
+                                                                    (int)(100*screenScale));
+        
+        g.setColor(c);
     }
     
     private void paintScreen(){
@@ -199,26 +238,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	running = true;
 
 	while(running) {
-          if (!gameOver) {
-              gameUpdate();
-              render();
-              paintScreen();
-              if (!gameOver) {
-                  afterTime = System.nanoTime();
-                  timeScale = afterTime - beforeTime;
-                  if(timeScale > 0){
-                      //System.out.println("Time Scale = "+timeScale);
-                      FPS = 1000000000 / timeScale;
-                      //System.out.println("FPS = "+FPS);
-                      if(FPS == 0)
-                          FPS = 1;
-                  }else
-                      FPS = 1;
-                  beforeTime = System.nanoTime();
-              }
-          }
+            gameUpdate();
+            render();
+            paintScreen();
+            
+            afterTime = System.nanoTime();
+            timeScale = afterTime - beforeTime;
+            if(timeScale > 0){
+                //System.out.println("Time Scale = "+timeScale);
+                FPS = 1000000000 / timeScale;
+                //System.out.println("FPS = "+FPS);
+                if(FPS == 0)
+                    FPS = 1;
+            }else
+                FPS = 1;
+            beforeTime = System.nanoTime();
 	}
-        System.exit(0);
+        //System.exit(0);
+    }
+    
+    private void lostGame(){
+        this.gameOver = true;
+    }
+    private void gameOverMessage(Graphics g){
+        Color c = g.getColor();
+        g.setColor(Color.RED);
+        
+        g.drawString("GAME OVER", width/2 - 150, height/2-50);
+        g.drawString("Your final score: " + ((int) Math.abs(totalDistance)), width/2-225, height/2);
+        
+        g.setColor(c);
     }
     
     @Override
