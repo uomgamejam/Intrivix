@@ -4,6 +4,10 @@
  */
 package Intrivix.game;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
  *
  * @author georgevanburgh
@@ -17,9 +21,26 @@ public class Hiscores {
      *
      * @return
      */
-    public static String[] buildScoreArray()
+    public static String[] buildScoreArray() throws FileNotFoundException
     {
+        Scanner input = new Scanner(new File(HISCORE_PATH));
+        while(input.hasNextLine())
+        { 
+                for(int index = 0; index < 10; index++)
+                {
+                    String [] row = input.nextLine().split("\\s+");
+                    hiscoreArray[index] = row [indexTwo];
+                }
+            for(int indexThree = 0; indexThree < 10; indexThree++)
+            {
+                for(int indexFour = 0; indexFour < 3; indexFour++)
+                {
+                    System.out.println(hiscoreArray[indexFour]);
+                }
+            }
+        }
         
+        return null;
     }
     
     /**
@@ -29,6 +50,11 @@ public class Hiscores {
      */
     public static boolean isHiscore(int givenScore)
     {
-        
+        return false;
+    }
+    
+    public static void main(String [] args) throws FileNotFoundException
+    {
+        buildScoreArray();
     }
 }
