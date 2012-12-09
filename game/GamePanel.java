@@ -99,7 +99,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         String levelName = "level" + levelNum;
         if (levelNum == 5) {
             try {
-                RandomLevel.main(null);
+                RandomLevel.generateLevel();
+                LevelLoader.loadLevel(levelName);
             } catch (IOException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
