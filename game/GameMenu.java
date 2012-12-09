@@ -50,20 +50,24 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     //constructer class 
     public GameMenu(GameStarter gs, boolean full)
     {
-        gameStarter = gs;
-        fullscreen = full;
+       gameStarter = gs;
+       fullscreen = full;
         
-        width = gameStarter.getBounds().width;
-        height = gameStarter.getBounds().height;
+       width = gameStarter.getBounds().width;
+       height = gameStarter.getBounds().height;
         
-        screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
+       screenScale = width/(double) GameMain.TARGET_SCREEN_WIDTH;
   
-        background = ImageLoader.INSTANCE.loadImage("GUI/background.png");
-        menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
-        menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
-        menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
-        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
-        menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+       background = ImageLoader.INSTANCE.loadImage("GUI/background.png");
+       menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
+       menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+       menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+       menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+       menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+       if(fullscreen)
+        {
+            menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+        }
        setFocusable(true);
        addKeyListener(this); 
        
@@ -164,14 +168,23 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
             case 1:menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame_selected.png");
                    menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+                   if(fullscreen)
+                   {
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+                   }
                    menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
                 break;
             case 2:menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores_selected.png");
                    menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+                   if(fullscreen)
+                   {
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+                   }
                    menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
                 break;
             case 3: 
+                    System.out.println("current fullscreen value :"  + fullscreen);
                    if(fullscreen){
                         menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed_selected.png");
                    }
@@ -187,6 +200,10 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                    menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
                    menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png"); 
+                   if(fullscreen)
+                   {
+                        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png");
+                   }
                 break;
         }
     }
@@ -208,8 +225,6 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                     running = false;
                     gameStarter.dispose();
                     GameStarter gs = new GameStarter(true);
-                    menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/windowed.png"); 
-                    System.out.println("going full screen");
                 break;
             case 4: System.exit(0);
                 break;         

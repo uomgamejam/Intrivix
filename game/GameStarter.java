@@ -4,10 +4,9 @@
  */
 package Intrivix.game;
 
-import java.awt.Container;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
@@ -30,7 +29,6 @@ public class GameStarter extends JFrame {
         if(fullscreen)
         {
             initFullScreen();
-            fullscreen = false;
         }
         else
         {
