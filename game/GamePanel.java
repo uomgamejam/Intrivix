@@ -74,6 +74,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private void gameUpdate(){
         if (!isPaused && !gameOver) {
             player.updatePlayer(FPS);
+            
+            for(Sprite s : LevelLoader.groundObjects){
+                s.updateSprite(FPS);
+            }
+            for(Sprite s : LevelLoader.backgroundObjects){
+                s.updateSprite(FPS);
+            }
         }
     }
     
@@ -107,6 +114,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         xg.setColor(Color.black);
 
         player.drawSprite(xg);
+        
+        for(Sprite s : LevelLoader.groundObjects){
+            s.updateSprite(FPS);
+        }
+        for(Sprite s : LevelLoader.backgroundObjects){
+            s.updateSprite(FPS);
+        }
     }
     
     private void paintScreen(){

@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 public class LevelLoader {
     //String to contain the location of the level files
     private final static String LEVEL_DIR = "assets/levels/";
-    public static ArrayList groundObjects = new ArrayList();
-    public static ArrayList backgroundObjects = new ArrayList();
+    public static ArrayList<Sprite> groundObjects = new ArrayList<Sprite>();
+    public static ArrayList<Sprite> backgroundObjects = new ArrayList<Sprite>();
     public static ScrollingBackground scrollingBackground = null;
     public static PlayerStart playerStart = null;
     
