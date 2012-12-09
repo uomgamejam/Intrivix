@@ -1,0 +1,2 @@
+DefaultBrick.png	100	100	1.0	ground
+DefaultBrick.png	300	100	1.0	ground
