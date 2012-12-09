@@ -39,7 +39,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener {
     private int currentButtonIndex = 1;
     //constructer class 
 
-    public GameMenu(GameStarter gs, boolean full) {
+    public GameMenu(GameStarter gs, boolean full, int level) {
         gameStarter = gs;
         fullscreen = full;
 
