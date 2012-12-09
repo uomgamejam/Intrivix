@@ -194,9 +194,9 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                 break;
             case 2: 
                 break;
-            case 3: width = ((int) tk.getScreenSize().getWidth());
+            /*case 3: width = ((int) tk.getScreenSize().getWidth());
                     height = ((int) tk.getScreenSize().getHeight());
-                break;
+                break;*/
             case 4: System.exit(0);
                 break;         
         }
@@ -219,7 +219,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     public void keyPressed(KeyEvent e){
         System.out.println("some shit was pressed ");
         int keyCode = e.getKeyCode();
-        if(keyCode == KeyEvent.VK_SPACE){
+        if(keyCode == KeyEvent.VK_SPACE && keyDownTime == 0){
             System.out.println("Space button pressed");
             keyDownTime = System.currentTimeMillis();
         }
@@ -233,9 +233,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
             if(keyElapceTime > 200){
                 System.out.println("trying to open app");
                 callMethodForButton();
+                keyDownTime = 0;
             }
             else
             {
+                keyDownTime = 0;
                 if(currentButtonIndex == 4){
                     currentButtonIndex = 1;
                 }
