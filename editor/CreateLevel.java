@@ -16,7 +16,7 @@ public class CreateLevel {
     public static void makeLevel(String givenLevelName, String[] objects)
     {
         String LEVEL_DIR = "./src/Intrivix/game/assets/levels/";
-        String levelFileName = LEVEL_DIR + givenLevelName + ".txt";
+        String levelFileName = LEVEL_DIR + givenLevelName;
         try
         {    
         FileWriter fWrite = new FileWriter(levelFileName);
