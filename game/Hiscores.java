@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Hiscores {
 
     private final static String HISCORE_PATH = "./src/Intrivix/game/assets/hiscore";
+    private static String[][] scoreArray;
     
     /**
      *
@@ -23,7 +24,7 @@ public class Hiscores {
     public static String[][] buildScoreArray() throws FileNotFoundException
     {
         Scanner input = new Scanner(new File(HISCORE_PATH));
-        String[][] scoreArray = new String[10][3];
+        scoreArray = new String[10][3];
         int row = 0;
         while(input.hasNextLine())
         { 
@@ -53,22 +54,40 @@ public class Hiscores {
     public static boolean isHiscore(String givenName, String givenScore, String givenDate) throws FileNotFoundException
     {
         Boolean isHiscore = false;
-        String[][] scoreArray = buildScoreArray();
+        scoreArray = buildScoreArray();
         for (int index = 0; index < 10; index++)
         {
             if (Integer.parseInt(givenScore) > Integer.parseInt(scoreArray[index][1])) {
                 isHiscore = true;
+                moveRows(index);
                 scoreArray[index][0] = givenName;
                 scoreArray[index][1] = givenScore;
                 scoreArray[index][2] = givenDate;
-                writeArray(scoreArray);
+                writeArray();
                 break;
             }
         }
         return isHiscore;
     }
     
-    public static void writeArray(String[][] scoreArray)
+    public static void copyRow(int Row1, int Row2)
+    {
+        for(int index = 0; index < 3; index++)
+        {
+            scoreArray[Row2][index] = scoreArray[Row1][index];
+        }
+    }
+    
+    public static void moveRows(int startRow)
+    {
+        for (int index = 10; index != startRow; index--)
+        {
+            copyRow(index, (index + 1));
+        }
+        writeArray();
+    }
+    
+    public static void writeArray()
     {
         try
         {    
@@ -93,9 +112,10 @@ public class Hiscores {
     public static void main(String [] args) throws FileNotFoundException
     {
         buildScoreArray();
-        if(isHiscore("Richard", "5001", "12/12/2012"))
+        /*if(isHiscore("Richard", "6000", "12/12/2012"))
         {
             System.out.println("Well done - Hiscore!!");
-        }
+        }*/
+        moveRows(5);
     }
 }
