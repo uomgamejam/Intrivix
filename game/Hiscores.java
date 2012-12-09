@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Hiscores {
 
     private final static String HISCORE_PATH = "./src/Intrivix/game/assets/hiscore";
+    private static String[][] scoreArray;
     
     /**
      *
@@ -23,7 +24,7 @@ public class Hiscores {
     public static String[][] buildScoreArray() throws FileNotFoundException
     {
         Scanner input = new Scanner(new File(HISCORE_PATH));
-        String[][] scoreArray = new String[10][3];
+        scoreArray = new String[10][3];
         int row = 0;
         while(input.hasNextLine())
         { 
@@ -53,7 +54,7 @@ public class Hiscores {
     public static boolean isHiscore(String givenName, String givenScore, String givenDate) throws FileNotFoundException
     {
         Boolean isHiscore = false;
-        String[][] scoreArray = buildScoreArray();
+        scoreArray = buildScoreArray();
         for (int index = 0; index < 10; index++)
         {
             if (Integer.parseInt(givenScore) > Integer.parseInt(scoreArray[index][1])) {
@@ -68,7 +69,12 @@ public class Hiscores {
         return isHiscore;
     }
     
-    public static void writeArray(String[][] scoreArray)
+    public static void copyRow(int Row1, int Row2)
+    {
+        
+    }
+    
+    public static void writeArray()
     {
         try
         {    
