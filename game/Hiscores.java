@@ -21,7 +21,7 @@ public class Hiscores {
      *
      * @return
      */
-    public static String[] buildScoreArray() throws FileNotFoundException
+    public static String[][] buildScoreArray() throws FileNotFoundException
     {
         Scanner input = new Scanner(new File(HISCORE_PATH));
         String[][] scoreArray = new String[10][3];
@@ -43,7 +43,7 @@ public class Hiscores {
             }
         }
         
-        return null;
+        return scoreArray;
     }
     
     /**
@@ -53,6 +53,12 @@ public class Hiscores {
      */
     public static boolean isHiscore(int givenScore)
     {
+        Boolean isHiscore = false;
+        String[][] scoreArray = buildScoreArray();
+        for (int index = 0; index < 10; index++)
+        {
+            isHiscore = (givenScore < scoreArray[index][1]);
+        }
         return false;
     }
     
