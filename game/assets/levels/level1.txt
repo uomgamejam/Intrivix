@@ -18,4 +18,4 @@ DefaultBrick.png	1600	100	1	ground
 DefaultBrick.png	1700	100	1	ground
 DefaultBrick.png	1800	100	1	ground
 DefaultBrick.png	1900	100	1	ground
-DefaultBackground.png	2000	100	1	background
+null                    100     200     1       player-start
