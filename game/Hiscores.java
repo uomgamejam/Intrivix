@@ -59,10 +59,11 @@ public class Hiscores {
         {
             if (Integer.parseInt(givenScore) > Integer.parseInt(scoreArray[index][1])) {
                 isHiscore = true;
+                moveRows(index);
                 scoreArray[index][0] = givenName;
                 scoreArray[index][1] = givenScore;
                 scoreArray[index][2] = givenDate;
-                writeArray(scoreArray);
+                writeArray();
                 break;
             }
         }
@@ -71,7 +72,19 @@ public class Hiscores {
     
     public static void copyRow(int Row1, int Row2)
     {
-        
+        for(int index = 0; index < 3; index++)
+        {
+            scoreArray[Row2][index] = scoreArray[Row1][index];
+        }
+    }
+    
+    public static void moveRows(int startRow)
+    {
+        for (int index = 10; index != startRow; index--)
+        {
+            copyRow(index, (index + 1));
+        }
+        writeArray();
     }
     
     public static void writeArray()
@@ -99,9 +112,10 @@ public class Hiscores {
     public static void main(String [] args) throws FileNotFoundException
     {
         buildScoreArray();
-        if(isHiscore("Richard", "5001", "12/12/2012"))
+        /*if(isHiscore("Richard", "6000", "12/12/2012"))
         {
             System.out.println("Well done - Hiscore!!");
-        }
+        }*/
+        moveRows(5);
     }
 }
