@@ -206,6 +206,8 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         }
     }
     
+    
+    
     @Override
     public void addNotify(){
         super.addNotify();

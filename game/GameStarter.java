@@ -5,6 +5,8 @@
 package Intrivix.game;
 
 import java.awt.Container;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
@@ -16,6 +18,7 @@ import javax.swing.JFrame;
 public class GameStarter extends JFrame {
     
     GameMenu menu;
+    private GraphicsDevice gd;
     
     GameStarter(Boolean fullscreen){
         //Here is where we start the regular menu.
@@ -25,7 +28,7 @@ public class GameStarter extends JFrame {
         
         if(fullscreen)
         {
-            setBounds(50, 0, Toolkit.getDefaultToolkit().getScreenSize().width,Toolkit.getDefaultToolkit().getScreenSize().height);
+            initFullScreen();
         }
         else
         {
@@ -41,6 +44,20 @@ public class GameStarter extends JFrame {
         setVisible(true);
     }
     
+    private void initFullScreen() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        gd = ge.getDefaultScreenDevice();
+
+        setUndecorated(true);    // no menu bar, borders, etc. or Swing components
+        setIgnoreRepaint(true);  // turn off all paint events since doing active rendering
+        setResizable(false);
+
+        if (!gd.isFullScreenSupported()) {
+            System.out.println("Full-screen exclusive mode not supported");
+            System.exit(0);
+        }
+        gd.setFullScreenWindow(this); // switch on full-screen exclusive mode
+    }  // end of initFullScreen()
     public static void main(String[] args){
         GameStarter gs = new GameStarter(false);
     }
