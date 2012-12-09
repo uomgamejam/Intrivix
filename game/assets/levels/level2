@@ -21,7 +21,15 @@ DefaultBrick.png	1900	100	1	ground
 DefaultBrick.png	1900	150	1	ground
 DefaultBrick.png        2000    100     1       ground
 DefaultBrick.png        2000    150     1       ground
-DefaultBrick.png        2000     200     1       ground
-DefaultBrick.png        
-null                    100     200     1       player-start
+DefaultBrick.png        2000    200     1       ground
+DefaultBrick.png        2200    200     1       ground
+DefaultBrick.png        2300    200     1       ground
+DefaultBrick.png        2400    250     1       ground
+DefaultBrick.png        2400    450     1       ground
+DefaultBrick.png        2500    250     1       ground
+DefaultBrick.png        2500    350     1       ground
+DefaultBrick.png        2600    250     1       ground
+DefaultBrick.png        2600    300     1       ground
+DefaultBrick.png        2700    200     1       ground
+null                    100     150     1       player-start
 background.png          .       .       1       scrolling-background
