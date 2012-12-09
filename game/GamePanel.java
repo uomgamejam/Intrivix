@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private Graphics2D xg = null;
     private Image xImage = null;
     
-    private int width, height;
+    public static int width, height;
     private double screenScale;
     
     private long keyDownTime = 0;
@@ -186,7 +186,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     }
     
     private void jumpBall(){
-        System.out.println("Player is jumping...");
+        //System.out.println("Player is jumping...");
         player.jump();
         
     }

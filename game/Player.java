@@ -17,10 +17,10 @@ public class Player extends Sprite{
     private double rotationSpeed = 0;
     
     //code needed for the player's jump
-    private boolean isJumping = false;
-    private static final double JUMP_SPEED = 50;
+    private boolean isJumping = false, isDoubleJumping = false;
+    private static final double JUMP_SPEED = 500;
     private double yAcceleration = JUMP_SPEED;
-    private double gravity = 10;
+    private double gravity = 9001;
     
     public Player(int x, int y, double scale, String imgName){
         super(x, y, scale, imgName);
@@ -48,8 +48,16 @@ public class Player extends Sprite{
     }
     
     private void updateJump(double fps){
-        yspeed += yAcceleration;
+        yspeed -= yAcceleration/fps;
         yAcceleration -= gravity/fps;
+        
+        //System.out.println("locy = "+locy+", panelHeight/2 = "+(GamePanel.height/2));
+        if(locy > GamePanel.height/2){
+            locy = GamePanel.height/2;
+            isJumping = false;
+            isDoubleJumping = false;
+            setSpeed(0, 0);
+        }
     }
     
     /**
@@ -68,8 +76,18 @@ public class Player extends Sprite{
     }
     
     public void jump(){
+        if(isJumping){
+            if(isDoubleJumping){
+                return;
+            }
+            isDoubleJumping = true;
+        }
+        
+        setSpeed(0, 1);
         isJumping = true;
-        setSpeed(0, JUMP_SPEED);
+        yAcceleration = JUMP_SPEED;
+        yspeed = -yAcceleration;
+        locy -= 10;
     }
     
 }
