@@ -20,7 +20,9 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -340,7 +342,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void lostGame() {
         this.gameOver = true;
         try {
-            isHighScore = Hiscores.isHiscore("" + ((int) Math.round(totalDistance)));
+            isHighScore = Hiscores.isHiscore("" + ((int) Math.abs(totalDistance)));
             currentLetterChanged = 1;
             letter1 = 'a';
             letter2 = 'a';
@@ -364,8 +366,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         if (isHighScore) {
             g.drawString("GAME OVER", width / 2 - 150, height / 2 - 50);
-            g.drawString("New High Score! Please enter your name:", width / 2 - 200, height / 2);
-            g.drawString(letter1 + letter2 + letter3 + "", width / 2 - 225, height / 2 + 30);
+            g.drawString("New High Score! Please enter your name:", width / 2 - 225, height / 2);
+            g.drawString(""+letter1 + letter2 + letter3, width / 2 - 25, height / 2 + 30);
         } else {
             g.drawString("GAME OVER", width / 2 - 150, height / 2 - 50);
             g.drawString("Press to restart!", width / 2 - 200, height / 2);
@@ -405,8 +407,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     currentLetterChanged++;
                     if (currentLetterChanged > 3) {
                         try {
-                            Hiscores.addHiscore(letter1 + letter2 + letter3 + "", "" + ((int) Math.round(totalDistance)),
-                                    "");
+                            Hiscores.addHiscore(""+letter1 + letter2 + letter3, "" + ((int) Math.abs(totalDistance)),
+                                    now());
+                            System.out.println("should have saved the high scores");
+                            isHighScore = false;
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -420,19 +424,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             } else if (gameOver) {
                 if (isHighScore) {
                     //restart the game!!! =P
-                    System.out.println("change the current letter");
+                    System.out.println("change the current letter, curLetter = "+currentLetterChanged);
                     switch (currentLetterChanged) {
                         case 1:
-                            incrLetter(letter1);
+                            incrLetter1();
                             break;
                         case 2:
-                            incrLetter(letter2);
+                            incrLetter2();
                             break;
                         case 3:
-                            incrLetter(letter3);
+                            incrLetter3();
                             break;
                     }
-                    restartGame();
                     keyDownTime = 0;
                 } else {
                     //restart the game!!! =P
@@ -447,85 +450,249 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void incrLetter(char letter) {
-        switch (letter) {
+    private void incrLetter1() {
+        switch (letter1) {
             case 'a':
-                letter = 'b';
+                letter1 = 'b';
                 break;
             case 'b':
-                letter = 'c';
+                letter1 = 'c';
                 break;
             case 'c':
-                letter = 'd';
+                letter1 = 'd';
                 break;
             case 'd':
-                letter = 'e';
+                letter1 = 'e';
                 break;
             case 'e':
-                letter = 'f';
+                letter1 = 'f';
                 break;
             case 'f':
-                letter = 'g';
+                letter1 = 'g';
                 break;
             case 'g':
-                letter = 'h';
+                letter1 = 'h';
                 break;
             case 'h':
-                letter = 'i';
+                letter1 = 'i';
                 break;
             case 'i':
-                letter = 'j';
+                letter1 = 'j';
                 break;
             case 'j':
-                letter = 'k';
+                letter1 = 'k';
                 break;
             case 'k':
-                letter = 'l';
+                letter1 = 'l';
                 break;
             case 'l':
-                letter = 'm';
+                letter1 = 'm';
                 break;
             case 'm':
-                letter = 'n';
+                letter1 = 'n';
                 break;
             case 'n':
-                letter = 'o';
+                letter1 = 'o';
                 break;
             case 'o':
-                letter = 'p';
+                letter1 = 'p';
                 break;
             case 'p':
-                letter = 'q';
+                letter1 = 'q';
                 break;
             case 'q':
-                letter = 'r';
+                letter1 = 'r';
                 break;
             case 'r':
-                letter = 's';
+                letter1 = 's';
                 break;
             case 's':
-                letter = 't';
+                letter1 = 't';
                 break;
             case 't':
-                letter = 'u';
+                letter1 = 'u';
                 break;
             case 'u':
-                letter = 'v';
+                letter1 = 'v';
                 break;
             case 'v':
-                letter = 'w';
+                letter1 = 'w';
                 break;
             case 'w':
-                letter = 'x';
+                letter1 = 'x';
                 break;
             case 'x':
-                letter = 'y';
+                letter1 = 'y';
                 break;
             case 'y':
-                letter = 'z';
+                letter1 = 'z';
                 break;
             case 'z':
-                letter = 'a';
+                letter1 = 'a';
+                break;
+        }
+    }
+    private void incrLetter2() {
+        switch (letter2) {
+            case 'a':
+                letter2 = 'b';
+                break;
+            case 'b':
+                letter2 = 'c';
+                break;
+            case 'c':
+                letter2 = 'd';
+                break;
+            case 'd':
+                letter2 = 'e';
+                break;
+            case 'e':
+                letter2 = 'f';
+                break;
+            case 'f':
+                letter2 = 'g';
+                break;
+            case 'g':
+                letter2 = 'h';
+                break;
+            case 'h':
+                letter2 = 'i';
+                break;
+            case 'i':
+                letter2 = 'j';
+                break;
+            case 'j':
+                letter2 = 'k';
+                break;
+            case 'k':
+                letter2 = 'l';
+                break;
+            case 'l':
+                letter2 = 'm';
+                break;
+            case 'm':
+                letter2 = 'n';
+                break;
+            case 'n':
+                letter2 = 'o';
+                break;
+            case 'o':
+                letter2 = 'p';
+                break;
+            case 'p':
+                letter2 = 'q';
+                break;
+            case 'q':
+                letter2 = 'r';
+                break;
+            case 'r':
+                letter2 = 's';
+                break;
+            case 's':
+                letter2 = 't';
+                break;
+            case 't':
+                letter2 = 'u';
+                break;
+            case 'u':
+                letter2 = 'v';
+                break;
+            case 'v':
+                letter2 = 'w';
+                break;
+            case 'w':
+                letter2 = 'x';
+                break;
+            case 'x':
+                letter2 = 'y';
+                break;
+            case 'y':
+                letter2 = 'z';
+                break;
+            case 'z':
+                letter2 = 'a';
+                break;
+        }
+    }
+    private void incrLetter3() {
+        switch (letter3) {
+            case 'a':
+                letter3 = 'b';
+                break;
+            case 'b':
+                letter3 = 'c';
+                break;
+            case 'c':
+                letter3 = 'd';
+                break;
+            case 'd':
+                letter3 = 'e';
+                break;
+            case 'e':
+                letter3 = 'f';
+                break;
+            case 'f':
+                letter3 = 'g';
+                break;
+            case 'g':
+                letter3 = 'h';
+                break;
+            case 'h':
+                letter3 = 'i';
+                break;
+            case 'i':
+                letter3 = 'j';
+                break;
+            case 'j':
+                letter3 = 'k';
+                break;
+            case 'k':
+                letter3 = 'l';
+                break;
+            case 'l':
+                letter3 = 'm';
+                break;
+            case 'm':
+                letter3 = 'n';
+                break;
+            case 'n':
+                letter3 = 'o';
+                break;
+            case 'o':
+                letter3 = 'p';
+                break;
+            case 'p':
+                letter3 = 'q';
+                break;
+            case 'q':
+                letter3 = 'r';
+                break;
+            case 'r':
+                letter3 = 's';
+                break;
+            case 's':
+                letter3 = 't';
+                break;
+            case 't':
+                letter3 = 'u';
+                break;
+            case 'u':
+                letter3 = 'v';
+                break;
+            case 'v':
+                letter3 = 'w';
+                break;
+            case 'w':
+                letter3 = 'x';
+                break;
+            case 'x':
+                letter3 = 'y';
+                break;
+            case 'y':
+                letter3 = 'z';
+                break;
+            case 'z':
+                letter3 = 'a';
                 break;
         }
     }
@@ -537,7 +704,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         LevelLoader.playerStart = null;
         LevelLoader.scrollingBackground = null;
 
-        GameStarter gs = new GameStarter(false);
+        GameStarter gs = new GameStarter(fullscreen);
         this.gameFrame.setVisible(false);
         running = false;
         gameFrame.dispose();
@@ -548,5 +715,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         //System.out.println("Player is jumping...");
         player.jump();
 
+    }
+    
+    public static String now() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return sdf.format(cal.getTime());
     }
 }

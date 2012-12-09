@@ -125,7 +125,7 @@ public class Hiscores {
     public static void main(String [] args) throws FileNotFoundException
     {
         buildScoreArray();
-        if(isHiscore("6008"))
+        if(isHiscore("908"))
         {
             System.out.println("Well done - Hiscore!!");
         }
