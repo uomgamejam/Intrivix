@@ -39,9 +39,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     private int FPS;
     private boolean isPaused;
     
-    private BufferedImage titleImageB, newGameImageB, 
-                          highScoresImageB, fullScreenImageB,
-                          exitImageB, backgroundImageB;
+    private BufferedImage[] menuButtonsB = new BufferedImage[5];
     
     private Image xImage = null;
     private Graphics2D xg = null;
@@ -51,6 +49,9 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     private double screenScale;
     
     private Sprite background;
+    
+    private double keyDownTime;
+    private int currentButtonIndex = 0;
     //constructer class 
     public GameMenu(GameStarter gs)
     {
@@ -62,11 +63,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         screenScale = (double) (width / 1920);
   
         background = new Sprite(0, 0, screenScale, "GUI/background.png");
-        titleImageB = ImageLoader.INSTANCE.loadImage("GUI/title.png");
-        newGameImageB = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
-        highScoresImageB = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
-        fullScreenImageB = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
-        exitImageB = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+        menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
+        menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+        menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+        menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
        
         
     }
@@ -93,11 +94,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     }
     private void menuRender(){
         xg.setColor(Color.black);
-        drawImageButton(xg, titleImageB, (width/2 - 150), 0,true);
-        drawImageButton(xg, newGameImageB, (width/2 - 50), 90, false);
-        drawImageButton(xg, highScoresImageB, (width/2 - 50), 120, false);
-        drawImageButton(xg, fullScreenImageB, 30, (height - 50), false);
-        drawImageButton(xg, exitImageB, (width - 130), (height - 50), false);
+        drawImageButton(xg, menuButtonsB[0], (width/2 - 150), 0,true);
+        drawImageButton(xg, menuButtonsB[1], (width/2 - 50), 90, false);
+        drawImageButton(xg, menuButtonsB[2], (width/2 - 50), 120, false);
+        drawImageButton(xg, menuButtonsB[3], 30, (height - 50), false);
+        drawImageButton(xg, menuButtonsB[4], (width - 130), (height - 50), false);
         //TODO draw all the things
     }
     
@@ -175,10 +176,31 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         }
     }
     
+    public void keyPressed(KeyEvent e){
+        
+        int keyCode = e.getKeyCode();
+        if(keyCode == KeyEvent.VK_SPACE){
+            System.out.println("Space button pressed");
+            keyDownTime = System.currentTimeMillis();
+        }
+    }
     
-    public void keyReleased(KeyEvent e) {}
-    
-    public void keyPressed(KeyEvent e){}
+    public void keyReleased(KeyEvent e) {
+        int keyCode =e.getKeyCode();
+        double keyElapceTime = System.currentTimeMillis() - keyDownTime;
+        if(keyCode == KeyEvent.VK_SPACE){
+            if(keyElapceTime <= 500){
+                if(currentButtonIndex == 4){
+                    currentButtonIndex = 0;
+                }
+                else
+                {
+                    currentButtonIndex += 1;
+                }
+                System.out.println(currentButtonIndex);
+            }
+        }
+    }
     
     public void keyTyped(KeyEvent e){}
     
