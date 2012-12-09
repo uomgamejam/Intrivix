@@ -220,11 +220,23 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
                 break;
             case 2: 
                 break;
-            case 3: fullscreen = true;
-                    gameStarter.setVisible(false); //you can't see me!
+            case 3: gameStarter.setVisible(false); //you can't see me!
                     running = false;
                     gameStarter.dispose();
-                    GameStarter gs = new GameStarter(true);
+                            
+                    if(fullscreen)
+                    {
+                        fullscreen = false;
+                        GameStarter gs = new GameStarter(false);
+                    }
+                    else
+                    {
+                        fullscreen = true;
+                        GameStarter gs = new GameStarter(true);
+                    }
+                    
+                    
+                    
                 break;
             case 4: System.exit(0);
                 break;         
