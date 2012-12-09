@@ -11,8 +11,6 @@ package Intrivix.game;
 
 
 
-import java.awt.Container;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,9 +19,6 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -39,9 +34,7 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     private int FPS;
     private boolean isPaused;
     
-    private BufferedImage titleImageB, newGameImageB, 
-                          highScoresImageB, fullScreenImageB,
-                          exitImageB, backgroundImageB;
+    private BufferedImage[] menuButtonsB = new BufferedImage[5];
     
     private Image xImage = null;
     private Graphics2D xg = null;
@@ -51,6 +44,9 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     private double screenScale;
     
     private Sprite background;
+    
+    private double keyDownTime;
+    private int currentButtonIndex = 1;
     //constructer class 
     public GameMenu(GameStarter gs)
     {
@@ -62,13 +58,13 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         screenScale = (double) (width / 1920);
   
         background = new Sprite(0, 0, screenScale, "GUI/background.png");
-        titleImageB = ImageLoader.INSTANCE.loadImage("GUI/title.png");
-        newGameImageB = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
-        highScoresImageB = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
-        fullScreenImageB = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
-        exitImageB = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
-       
-        
+        menuButtonsB[0] = ImageLoader.INSTANCE.loadImage("GUI/title.png");
+        menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+        menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+        menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+        menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+       setFocusable(true);
+       addKeyListener(this); 
     }
     
     private void render(){
@@ -93,11 +89,11 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
     }
     private void menuRender(){
         xg.setColor(Color.black);
-        drawImageButton(xg, titleImageB, (width/2 - 150), 0,true);
-        drawImageButton(xg, newGameImageB, (width/2 - 50), 90, false);
-        drawImageButton(xg, highScoresImageB, (width/2 - 50), 120, false);
-        drawImageButton(xg, fullScreenImageB, 30, (height - 50), false);
-        drawImageButton(xg, exitImageB, (width - 130), (height - 50), false);
+        drawImageButton(xg, menuButtonsB[0], (width/2 - 150), 0,true);
+        drawImageButton(xg, menuButtonsB[1], (width/2 - 50), 90, false);
+        drawImageButton(xg, menuButtonsB[2], (width/2 - 50), 120, false);
+        drawImageButton(xg, menuButtonsB[3], 30, (height - 50), false);
+        drawImageButton(xg, menuButtonsB[4], (width - 130), (height - 50), false);
         //TODO draw all the things
     }
     
@@ -141,16 +137,17 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
 
 	while(running) {
           if (!gameOver) {
-              //gameUpdate();
+              menuUpdate();
               render();
               paintScreen();
               if (!gameOver) {
                   afterTime = System.nanoTime()/1000000;
                   timeScale = afterTime - beforeTime;
-                  if(timeScale > 0)
+                  if(timeScale > 0){
                     FPS = (int) (1000 / timeScale);
-                  else
+                  }else{
                       FPS = 0;
+                  }
                   beforeTime = System.nanoTime()/1000000;
               }
           }
@@ -158,8 +155,30 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         System.exit(0);
     }
     
-    private void gameUpdate(){
-        //TODO possibly do something here...
+    private void menuUpdate(){
+        switch(currentButtonIndex)
+        {
+            case 1:menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame_selected.png");
+                   menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+                   menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+                   menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+                break;
+            case 2:menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores_selected.png");
+                   menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+                   menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png");
+                   menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+                break;
+            case 3:menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen_selected.png");
+                   menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+                   menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+                   menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit.png");
+                break;
+            case 4:menuButtonsB[4] = ImageLoader.INSTANCE.loadImage("GUI/exit_selected.png");
+                   menuButtonsB[1] = ImageLoader.INSTANCE.loadImage("GUI/newgame.png");
+                   menuButtonsB[2] = ImageLoader.INSTANCE.loadImage("GUI/hiscores.png");
+                   menuButtonsB[3] = ImageLoader.INSTANCE.loadImage("GUI/fullscreen.png"); 
+                break;
+        }
     }
     
     @Override
@@ -175,11 +194,40 @@ public class GameMenu extends JPanel implements Runnable, KeyListener
         }
     }
     
+    @Override
+    public void keyPressed(KeyEvent e){
+        System.out.println("some shit was pressed ");
+        int keyCode = e.getKeyCode();
+        if(keyCode == KeyEvent.VK_SPACE){
+            System.out.println("Space button pressed");
+            keyDownTime = System.currentTimeMillis();
+        }
+    }
     
-    public void keyReleased(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        double keyElapceTime = System.currentTimeMillis() - keyDownTime;
+        if(keyCode == KeyEvent.VK_SPACE){
+            if(keyElapceTime < 75){
+                if(currentButtonIndex == 4){
+                    currentButtonIndex = 1;
+                }
+                else
+                {
+                    currentButtonIndex += 1;
+                }
+                System.out.println(currentButtonIndex);
+            }
+        }
+        else 
+        {
+               
+        }
+        keyDownTime = 0;
+    }
     
-    public void keyPressed(KeyEvent e){}
-    
+    @Override
     public void keyTyped(KeyEvent e){}
     
 }
